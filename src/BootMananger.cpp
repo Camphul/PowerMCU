@@ -8,7 +8,6 @@
 #include "esp32-hal-gpio.h"
 #include "driver/rtc_io.h"
 #include "ServicesContainer.h"
-#include "SafeShutdownTask.h"
 
 static ServicesContainer servicesContainer;
 
@@ -40,6 +39,8 @@ BootResponse BootMananger::registerBasicIO() {
     gpio_set_level(SAFESHUTDOWN_WARN_PIN, HIGH);
     gpio_hold_en(SAFESHUTDOWN_WARN_PIN);
     gpio_set_level(LEDRING_PIN, HIGH);
+    delay(2000);
+    gpio_set_level(LEDRING_PIN, LOW);
     return BOOT_SECTION_OK;
 }
 
@@ -58,7 +59,7 @@ void BootMananger::sysInit() {
     BootResponse bootResponse = startSequence();
     if (bootResponse != BOOT_OK) {
         //Boot failed lets try restart
-        //esp_restart();
+        esp_restart();
     }
     // Boot has finished
 }

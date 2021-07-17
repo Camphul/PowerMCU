@@ -8,29 +8,27 @@
 #include <EasyButton.h>
 #include "SafeShutdownTask.h"
 
-portMUX_TYPE mux = portMUX_INITIALIZER_UNLOCKED;
+static SemaphoreHandle_t btnMutex = xSemaphoreCreateMutex();
+static SemaphoreHandle_t pressedMutex = xSemaphoreCreateMutex();
 bool ledState = false;
 
 void handleOnPressed() {
+    xSemaphoreTake(pressedMutex, portMAX_DELAY);
     Serial.println("Button pressed callback was fired");
     ledState = !ledState;
     gpio_set_level(LEDRING_PIN, ledState);
     safeShutdown();
-
+    xSemaphoreGive(pressedMutex);
 }
 
 void taskMomentaryButtonRead(void *parameter) {
-    EasyButton powerButton(SOFTLATCH_BTN_PIN, 50, false, true);
+    EasyButton powerButton(SOFTLATCH_BTN_PIN, 50, false, false);
     powerButton.begin();
     powerButton.onPressed(handleOnPressed);
-    if (powerButton.supportsInterrupt()) {
-        //Serial.println("PwrButton does support interrupts.");
-        // powerButton.enableInterrupt(handleMomentaryButtonInterrupt);
-    }
     while (1) {
-        portENTER_CRITICAL_ISR(&mux);
+        xSemaphoreTake(btnMutex, portMAX_DELAY);
         powerButton.read();
-        portEXIT_CRITICAL_ISR(&mux);
+        xSemaphoreGive(btnMutex);
         vTaskDelay(5 / portTICK_PERIOD_MS);
     }
 

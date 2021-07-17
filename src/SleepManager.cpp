@@ -18,18 +18,19 @@ SleepManager::SleepManager() {}
 void SleepManager::initTimedSleep() {
     ++bootCount;
     Serial.println("Boot number: " + String(bootCount));
+    gpio_set_level(SAFESHUTDOWN_WARN_PIN, HIGH);
+    gpio_hold_en(SAFESHUTDOWN_WARN_PIN);
     //Since we know the power button is wakeup reason for this we want to actually shut down
     esp_sleep_wakeup_cause_t wakeup_reason;
     wakeup_reason = esp_sleep_get_wakeup_cause();
     if (wakeup_reason == ESP_SLEEP_WAKEUP_EXT0) {
-        safeShutdown();
+        Serial.println("EXT0 wakeup  reason triggered");
         delay(400);
-        return;
+        safeShutdown();
+        delay(SAFESHUTDOWN_DELAY*mS_TO_S_FACTOR + 2000);
     }
     gpio_set_intr_type(SOFTLATCH_BTN_PIN, GPIO_INTR_POSEDGE);
     gpio_intr_enable(SOFTLATCH_BTN_PIN);
-    gpio_set_level(SAFESHUTDOWN_WARN_PIN, HIGH);
-    gpio_hold_en(SAFESHUTDOWN_WARN_PIN);
     printWakeupReason(wakeup_reason);
 #ifdef TIME_PREDELAY_SLEEP
     delay((TIME_PREDELAY_SLEEP*mS_TO_S_FACTOR) / portTICK_PERIOD_MS);
@@ -37,7 +38,6 @@ void SleepManager::initTimedSleep() {
     esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
     Serial.println("Setup ESP32 to sleep for every " + String(TIME_TO_SLEEP) +
                    " Seconds");
-    Serial.println("Going to sleep now");
     Serial.println("Going to sleep now");
     Serial.flush();
     esp_deep_sleep_start();
