@@ -2,7 +2,6 @@
 // Created by luca on 7/13/21.
 //
 
-#include "config.h"
 #include "ServicesContainer.h"
 #include "MomentarySwitch.h"
 #include "SleepManager.h"
