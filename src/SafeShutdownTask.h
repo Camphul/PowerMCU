@@ -8,7 +8,9 @@
 class SafeShutdownTask {
 
 };
+
 void safeShutdown();
-void taskSafeShutdown(void * args);
+
+void taskSafeShutdown(void *args);
 
 #endif //POWERMCU_SAFESHUTDOWNTASK_H

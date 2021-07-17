@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 1 7
+Sheet 1 9
 Title "Powerbank BMS Additional Circuitry"
 Date "2021-07-11"
 Rev "1"
@@ -157,9 +157,123 @@ Wire Wire Line
 Text Notes 3300 2750 0    50   ~ 0
 Used for charging powerbank \nfrom 12V source.
 $Sheet
-S 5600 1950 3400 3250
+S 3100 3500 2200 1050
 U 60F2D9E7
 F0 "ESP32_AND_SUCH" 50
 F1 "MCU.sch" 50
+F2 "BMS_TX" O R 5300 3700 50 
+F3 "BMS_RX" I R 5300 3600 50 
+F4 "SAFE_SHUTDOWN_SIGNAL" O R 5300 3950 50 
+F5 "SOFTLATCH_GATE_ENABLE" O L 3100 3900 50 
+F6 "LEDRING" O R 5300 4050 50 
+F7 "SDA1" B R 5300 4350 50 
+F8 "SCL1" O R 5300 4450 50 
+F9 "SOFTLATCH_BTN_3v3" I L 3100 4050 50 
+F10 "5V" U L 3100 3700 50 
+F11 "3V3" O L 3100 3800 50 
+F12 "MCU_GND" U L 3100 3600 50 
 $EndSheet
+Wire Wire Line
+	3000 3700 3100 3700
+Text GLabel 3000 3700 0    50   Output ~ 0
+5V
+Text GLabel 3000 3600 0    50   Output ~ 0
+GND
+Wire Wire Line
+	3000 3600 3100 3600
+Text GLabel 3000 3800 0    50   Output ~ 0
+3v3
+Wire Wire Line
+	3000 3800 3100 3800
+Text GLabel 3000 3900 0    50   Input ~ 0
+MCU_LATCH_EN
+Wire Wire Line
+	3000 3900 3100 3900
+Text GLabel 4450 1700 2    50   Output ~ 0
+MCU_LATCH_EN
+Wire Wire Line
+	4450 1700 4300 1700
+Text GLabel 3000 4050 0    50   Output ~ 0
+MCU_LATCH_BTN
+Wire Wire Line
+	3000 4050 3100 4050
+Wire Wire Line
+	4450 1600 4300 1600
+Text GLabel 4450 1600 2    50   Input ~ 0
+MCU_LATCH_BTN
+$Comp
+L Connector:Conn_01x02_Female J?
+U 1 1 60F61784
+P 5650 4350
+F 0 "J?" H 5678 4326 50  0000 L CNN
+F 1 "I2C BUS" H 5678 4235 50  0000 L CNN
+F 2 "" H 5650 4350 50  0001 C CNN
+F 3 "~" H 5650 4350 50  0001 C CNN
+	1    5650 4350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5300 4350 5450 4350
+Wire Wire Line
+	5450 4450 5300 4450
+$Comp
+L Connector:Conn_01x02_Female J?
+U 1 1 60F625B7
+P 6150 4050
+F 0 "J?" H 6178 4026 50  0000 L CNN
+F 1 "LEDRING" H 6178 3935 50  0000 L CNN
+F 2 "" H 6150 4050 50  0001 C CNN
+F 3 "~" H 6150 4050 50  0001 C CNN
+	1    6150 4050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5300 4050 5950 4050
+Text GLabel 5950 4150 0    50   Output ~ 0
+GND
+$Comp
+L Connector:Conn_01x02_Female J?
+U 1 1 60F64EEF
+P 6150 3800
+F 0 "J?" H 6178 3776 50  0000 L CNN
+F 1 "SAFE_SHUTDOWN_WARNING" H 6178 3685 50  0000 L CNN
+F 2 "" H 6150 3800 50  0001 C CNN
+F 3 "~" H 6150 3800 50  0001 C CNN
+	1    6150 3800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5300 3950 5850 3950
+Text GLabel 5950 3800 0    50   Output ~ 0
+GND
+Wire Wire Line
+	5850 3950 5850 3900
+Wire Wire Line
+	5850 3900 5950 3900
+$Comp
+L Connector:Conn_01x04_Female J?
+U 1 1 60F67167
+P 5700 2700
+F 0 "J?" H 5728 2676 50  0000 L CNN
+F 1 "BMS_UART" H 5728 2585 50  0000 L CNN
+F 2 "" H 5700 2700 50  0001 C CNN
+F 3 "~" H 5700 2700 50  0001 C CNN
+	1    5700 2700
+	0    -1   -1   0   
+$EndComp
+Text GLabel 5600 3050 3    50   Output ~ 0
+GND
+Wire Wire Line
+	5300 3600 5700 3600
+Wire Wire Line
+	5700 3600 5700 2900
+Wire Wire Line
+	5800 2900 5800 3700
+Wire Wire Line
+	5800 3700 5300 3700
+Wire Wire Line
+	5600 2900 5600 3050
+NoConn ~ 5900 2900
+Text Notes 5950 3050 0    50   ~ 0
+VCC from BMS is 10V, dont connect\n\n
 $EndSCHEMATC

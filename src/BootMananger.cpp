@@ -27,7 +27,7 @@ BootResponse BootMananger::coreBootInit() {
     //rtc_gpio_set_direction(SOFTLATCH_BTN_PIN, RTC_GPIO_MODE_INPUT_ONLY);
     //rtc_gpio_pulldown_en(SOFTLATCH_BTN_PIN);
     gpio_set_pull_mode(SOFTLATCH_BTN_PIN, GPIO_PULLDOWN_ONLY);
-    esp_sleep_enable_ext0_wakeup(SOFTLATCH_BTN_PIN,HIGH);
+    esp_sleep_enable_ext0_wakeup(SOFTLATCH_BTN_PIN, HIGH);
     gpio_install_isr_service(ESP_INTR_FLAG_DEFAULT);
     return BOOT_SECTION_OK;
 }
@@ -56,7 +56,7 @@ BootResponse BootMananger::initTasksAndServices() {
 
 void BootMananger::sysInit() {
     BootResponse bootResponse = startSequence();
-    if(bootResponse != BOOT_OK) {
+    if (bootResponse != BOOT_OK) {
         //Boot failed lets try restart
         //esp_restart();
     }
@@ -64,16 +64,16 @@ void BootMananger::sysInit() {
 }
 
 BootResponse BootMananger::startSequence() {
-    if(coreBootInit() != BOOT_SECTION_OK) {
+    if (coreBootInit() != BOOT_SECTION_OK) {
         return BOOT_FAILED;
     }
-    if(registerBasicIO() != BOOT_SECTION_OK) {
+    if (registerBasicIO() != BOOT_SECTION_OK) {
         return BOOT_FAILED;
     }
-    if(registerIIC() != BOOT_SECTION_OK) {
+    if (registerIIC() != BOOT_SECTION_OK) {
         return BOOT_FAILED;
     }
-    if(initTasksAndServices() != BOOT_SECTION_OK) {
+    if (initTasksAndServices() != BOOT_SECTION_OK) {
         return BOOT_FAILED;
     }
     return BOOT_OK;

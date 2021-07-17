@@ -7,26 +7,31 @@
 #include "pins.h"
 #include <Arduino.h>
 #include "ServicesContainer.h"
-portMUX_TYPE shutdownMux = portMUX_INITIALIZER_UNLOCKED;
+
+static SemaphoreHandle_t shutdownMutex = xSemaphoreCreateMutex();
+static TaskHandle_t shutdownTaskHandle;
+
 void safeShutdown() {
-    xTaskCreate(taskSafeShutdown, "Safe shutdown task", 1024, NULL, 1, NULL);
+    xTaskCreate(taskSafeShutdown, "Safe shutdown task", 4096, NULL, 1, &shutdownTaskHandle);
 }
-void taskSafeShutdown(void * args) {
-   // portENTER_CRITICAL_ISR(&shutdownMux);
+
+void taskSafeShutdown(void *args) {
+    xSemaphoreTake(shutdownMutex, portMAX_DELAY);
+    Serial.println("Shutting down");
+    shutdownServices();
     gpio_hold_en(SOFTLATCH_OUTPUT_PIN);
     gpio_set_level(SOFTLATCH_OUTPUT_PIN, HIGH);
     gpio_set_level(LEDRING_PIN, LOW);
     Serial.println("Going for a safe shutdown!");
-    gpio_hold_dis(SAFESHUTDOWN_WARN_PIN);
     gpio_set_level(SAFESHUTDOWN_WARN_PIN, LOW);
-    delay(SAFESHUTDOWN_DELAY);
-    //gpio_set_direction(SOFTLATCH_BTN_PIN, GPIO_MODE_DISABLE);
-    //gpio_hold_dis(SOFTLATCH_OUTPUT_PIN);
-    shutdownServices();
+    gpio_hold_dis(SAFESHUTDOWN_WARN_PIN);
+    delay(SAFESHUTDOWN_DELAY * mS_TO_S_FACTOR);
+    Serial.println("System has been shutdown");
     Serial.flush();
     Serial2.flush();
     gpio_set_level(SOFTLATCH_OUTPUT_PIN, LOW);
     gpio_hold_dis(SOFTLATCH_OUTPUT_PIN);
-    delay(200);
-    //portEXIT_CRITICAL_ISR(&shutdownMux);
+    //gpio_set_direction(SOFTLATCH_BTN_PIN, GPIO_MODE_DISABLE);
+    delay(100);
+    xSemaphoreGive(shutdownMutex);
 }

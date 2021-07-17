@@ -7,16 +7,17 @@
 #include <Arduino.h>
 #include <pins.h>
 #include <config.h>
+
 #define EMPTY_BUFF ""
 /* Mutex used to safely read into buffer*/
 portMUX_TYPE serialMux = portMUX_INITIALIZER_UNLOCKED;
 int readBuff;
 
-[[noreturn]] void taskBMSCommunicator(void * args) {
+[[noreturn]] void taskBMSCommunicator(void *args) {
     //char buff*;
     /*Wait for serial connection to be setup*/
-    vTaskDelay(50/portTICK_PERIOD_MS);
-    while(1) {
+    vTaskDelay(50 / portTICK_PERIOD_MS);
+    while (1) {
         if (Serial2.available()) {
             /* Enter critical mutex to read incoming data */
             portENTER_CRITICAL(&serialMux);
@@ -28,6 +29,6 @@ int readBuff;
             Serial2.println(readString);
             portEXIT_CRITICAL(&serialMux);
         }
-        vTaskDelay(5/portTICK_PERIOD_MS);
+        vTaskDelay(5 / portTICK_PERIOD_MS);
     }
 }

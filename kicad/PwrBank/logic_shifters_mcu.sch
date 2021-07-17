@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 8 8
+Sheet 8 9
 Title "Logic Shifters MCU"
 Date "2021-07-17"
 Rev "1"
@@ -13,14 +13,16 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-Text HLabel 3750 2300 1    50   Output ~ 0
+Text HLabel 3750 2300 1    50   Input ~ 0
 HV
-Text HLabel 3250 2300 1    50   Output ~ 0
+Text HLabel 3250 2300 1    50   Input ~ 0
 LV
 $Comp
 L Device:R_Small R?
 U 1 1 60F399FD
 P 3250 2500
+AR Path="/60F2D9E7/60F3980E/60F399FD" Ref="R?"  Part="1" 
+AR Path="/60F2D9E7/60F56C27/60F399FD" Ref="R?"  Part="1" 
 F 0 "R?" H 3192 2454 50  0000 R CNN
 F 1 "10K" H 3192 2545 50  0000 R CNN
 F 2 "" H 3250 2500 50  0001 C CNN
@@ -32,6 +34,8 @@ $Comp
 L Device:R_Small R?
 U 1 1 60F39B1A
 P 3750 2500
+AR Path="/60F2D9E7/60F3980E/60F39B1A" Ref="R?"  Part="1" 
+AR Path="/60F2D9E7/60F56C27/60F39B1A" Ref="R?"  Part="1" 
 F 0 "R?" H 3809 2546 50  0000 L CNN
 F 1 "10K" H 3809 2455 50  0000 L CNN
 F 2 "" H 3750 2500 50  0001 C CNN
@@ -53,6 +57,8 @@ $Comp
 L Transistor_FET:BSS138 Q?
 U 1 1 60F3AB7E
 P 3500 2750
+AR Path="/60F2D9E7/60F3980E/60F3AB7E" Ref="Q?"  Part="1" 
+AR Path="/60F2D9E7/60F56C27/60F3AB7E" Ref="Q?"  Part="1" 
 F 0 "Q?" V 3749 2750 50  0000 C CNN
 F 1 "BSS138" V 3840 2750 50  0000 C CNN
 F 2 "Package_TO_SOT_SMD:SOT-23" H 3700 2675 50  0001 L CIN

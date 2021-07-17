@@ -6,9 +6,11 @@
 #include "MomentarySwitch.h"
 #include "SleepManager.h"
 #include "BMSCommunicator.h"
+
 static TaskHandle_t handle_taskMomentaryButtonRead;
 static TaskHandle_t handle_taskSleepManager;
 static TaskHandle_t handle_taskBMSCommunicator;
+
 //static TaskHandle_t handle_taskStatusLCD;
 void ServicesContainer::registerServices() {
     xTaskCreate(taskMomentaryButtonRead, "Momentary switch read task", 1024, NULL, 1, &handle_taskMomentaryButtonRead);
@@ -17,7 +19,7 @@ void ServicesContainer::registerServices() {
 }
 
 void shutdownServices() {
-    vTaskDelete(handle_taskSleepManager);
-    vTaskDelete(handle_taskMomentaryButtonRead);
-    vTaskDelete(handle_taskBMSCommunicator);
+    vTaskSuspend(handle_taskSleepManager);
+    vTaskSuspend(handle_taskMomentaryButtonRead);
+    vTaskSuspend(handle_taskBMSCommunicator);
 }

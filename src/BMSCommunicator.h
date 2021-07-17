@@ -10,5 +10,6 @@ class BMSCommunicator {
 
 };
 
-[[noreturn]] void taskBMSCommunicator(void * args);
+[[noreturn]] void taskBMSCommunicator(void *args);
+
 #endif //POWERMCU_BMSCOMMUNICATOR_H

@@ -4,15 +4,19 @@
 
 #ifndef POWERMCU_SLEEPMANAGER_H
 #define POWERMCU_SLEEPMANAGER_H
+
 #include "esp32-hal-gpio.h"
+
 class SleepManager {
 public:
     SleepManager();
-    void printWakeupReason();
+
+    void printWakeupReason(esp_sleep_wakeup_cause_t wakeup_reason);
+
     void initTimedSleep();
 };
 
-void taskSleepManager(void * args);
+void taskSleepManager(void *args);
 
 
 #endif //POWERMCU_SLEEPMANAGER_H
