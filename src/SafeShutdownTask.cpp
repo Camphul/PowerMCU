@@ -25,13 +25,19 @@ void taskSafeShutdown(void *args) {
     Serial.println("Going for a safe shutdown!");
     gpio_set_level(SAFESHUTDOWN_WARN_PIN, LOW);
     gpio_hold_dis(SAFESHUTDOWN_WARN_PIN);
-    delay(SAFESHUTDOWN_DELAY * mS_TO_S_FACTOR);
+    for(int i = 0; i < SAFESHUTDOWN_DELAY; i++) {
+        gpio_set_level(LEDRING_PIN, (i+3)%2);
+        delay(mS_TO_S_FACTOR);
+    }
+    gpio_set_level(LEDRING_PIN, LOW);
     Serial.println("System has been shutdown");
     Serial.flush();
     Serial2.flush();
     gpio_set_level(SOFTLATCH_OUTPUT_PIN, LOW);
     gpio_hold_dis(SOFTLATCH_OUTPUT_PIN);
     //gpio_set_direction(SOFTLATCH_BTN_PIN, GPIO_MODE_DISABLE);
-    delay(100);
+    while(1){
+        delay(1000);//just block as a demo, requiring a complete board reset.
+    }
     xSemaphoreGive(shutdownMutex);
 }
