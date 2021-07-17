@@ -5,6 +5,7 @@
 #include "SleepManager.h"
 #include "Arduino.h"
 #include "config.h"
+#include "pins.h"
 #include "soc/rtc_cntl_reg.h"
 #include "driver/rtc_io.h"
 RTC_DATA_ATTR int bootCount = 0;
@@ -14,6 +15,8 @@ SleepManager::SleepManager() {}
 
 void SleepManager::initTimedSleep() {
     ++bootCount;
+    gpio_set_intr_type(SOFTLATCH_BTN_PIN, GPIO_INTR_POSEDGE);
+    gpio_intr_enable(SOFTLATCH_BTN_PIN);
     Serial.println("Boot number: " + String(bootCount));
     printWakeupReason();
     #ifdef TIME_PREDELAY_SLEEP
