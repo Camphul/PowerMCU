@@ -16,3 +16,9 @@ void ServicesContainer::registerServices() {
     xTaskCreate(taskSleepManager, "Deepsleeps MCU to preserve power", 2048, NULL, 1, &handle_taskSleepManager);
     xTaskCreate(taskBMSCommunicator, "Communicate with BMS", 2014, NULL, 1, &handle_taskBMSCommunicator);
 }
+
+void shutdownServices() {
+    vTaskDelete(handle_taskSleepManager);
+    //vTaskDelete(handle_taskMomentaryButtonRead);
+    vTaskDelete(handle_taskBMSCommunicator);
+}

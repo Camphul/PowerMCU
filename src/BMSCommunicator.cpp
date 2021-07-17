@@ -20,10 +20,12 @@ int readBuff;
         if (Serial2.available()) {
             /* Enter critical mutex to read incoming data */
             portENTER_CRITICAL(&serialMux);
-            readBuff = Serial2.read();
+            String readString = Serial2.readStringUntil('\n');
             /* Exit critical mutex to read incoming data */
-            Serial.write(readBuff);
-            Serial2.write(readBuff);
+            Serial.print("Received: ");
+            Serial.println(readString);
+            Serial2.print("Echo: ");
+            Serial2.println(readString);
             portEXIT_CRITICAL(&serialMux);
         }
         vTaskDelay(5/portTICK_PERIOD_MS);

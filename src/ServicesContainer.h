@@ -9,8 +9,9 @@
 class ServicesContainer {
 public:
     void registerServices();
-
 };
+
+void shutdownServices();
 
 
 #endif //POWERMCU_SERVICESCONTAINER_H

@@ -6,9 +6,9 @@
 #include <Arduino.h>
 #include "BootMananger.h"
 #include "esp32-hal-gpio.h"
-#include "soc/rtc.h"
 #include "driver/rtc_io.h"
 #include "ServicesContainer.h"
+#include "SafeShutdownTask.h"
 
 static ServicesContainer servicesContainer;
 
@@ -35,7 +35,10 @@ BootResponse BootMananger::coreBootInit() {
 BootResponse BootMananger::registerBasicIO() {
     gpio_set_direction(LEDRING_PIN, GPIO_MODE_OUTPUT);
     gpio_set_pull_mode(LEDRING_PIN, GPIO_PULLDOWN_ONLY);
-    gpio_set_level(LEDRING_PIN, LOW);
+    gpio_set_direction(SAFESHUTDOWN_WARN_PIN, GPIO_MODE_OUTPUT);
+    gpio_set_pull_mode(SAFESHUTDOWN_WARN_PIN, GPIO_PULLDOWN_ONLY);
+    gpio_set_level(SAFESHUTDOWN_WARN_PIN, LOW);
+    gpio_set_level(LEDRING_PIN, HIGH);
     return BOOT_SECTION_OK;
 }
 

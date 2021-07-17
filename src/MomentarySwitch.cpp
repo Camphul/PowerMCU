@@ -6,12 +6,15 @@
 #include "pins.h"
 #include "config.h"
 #include <EasyButton.h>
+#include "SafeShutdownTask.h"
 portMUX_TYPE mux = portMUX_INITIALIZER_UNLOCKED;
 bool ledState = false;
 void handleOnPressed() {
     Serial.println("Button pressed callback was fired");
     ledState = !ledState;
     gpio_set_level(LEDRING_PIN, ledState);
+    safeShutdown();
+
 }
 
 void taskMomentaryButtonRead( void * parameter)
