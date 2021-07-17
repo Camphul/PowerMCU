@@ -37,7 +37,8 @@ BootResponse BootMananger::registerBasicIO() {
     gpio_set_pull_mode(LEDRING_PIN, GPIO_PULLDOWN_ONLY);
     gpio_set_direction(SAFESHUTDOWN_WARN_PIN, GPIO_MODE_OUTPUT);
     gpio_set_pull_mode(SAFESHUTDOWN_WARN_PIN, GPIO_PULLDOWN_ONLY);
-    gpio_set_level(SAFESHUTDOWN_WARN_PIN, LOW);
+    gpio_set_level(SAFESHUTDOWN_WARN_PIN, HIGH);
+    gpio_hold_en(SAFESHUTDOWN_WARN_PIN);
     gpio_set_level(LEDRING_PIN, HIGH);
     return BOOT_SECTION_OK;
 }

@@ -17,7 +17,8 @@ void taskSafeShutdown(void * args) {
     gpio_set_level(SOFTLATCH_OUTPUT_PIN, HIGH);
     gpio_set_level(LEDRING_PIN, LOW);
     Serial.println("Going for a safe shutdown!");
-    gpio_set_level(SAFESHUTDOWN_WARN_PIN, HIGH);
+    gpio_hold_dis(SAFESHUTDOWN_WARN_PIN);
+    gpio_set_level(SAFESHUTDOWN_WARN_PIN, LOW);
     delay(SAFESHUTDOWN_DELAY);
     //gpio_set_direction(SOFTLATCH_BTN_PIN, GPIO_MODE_DISABLE);
     //gpio_hold_dis(SOFTLATCH_OUTPUT_PIN);

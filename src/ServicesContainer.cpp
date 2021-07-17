@@ -19,6 +19,6 @@ void ServicesContainer::registerServices() {
 
 void shutdownServices() {
     vTaskDelete(handle_taskSleepManager);
-    //vTaskDelete(handle_taskMomentaryButtonRead);
+    vTaskDelete(handle_taskMomentaryButtonRead);
     vTaskDelete(handle_taskBMSCommunicator);
 }
