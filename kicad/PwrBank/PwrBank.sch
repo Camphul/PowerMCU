@@ -1,0 +1,165 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 8
+Title "Powerbank BMS Additional Circuitry"
+Date "2021-07-11"
+Rev "1"
+Comp "Logic Shift"
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Sheet
+S 650  1100 650  800 
+U 60EAFEE2
+F0 "MomentaryRGBSwitch" 50
+F1 "MomentaryRGBSwitch.sch" 50
+F2 "LED_R" I R 1300 1200 50 
+F3 "LED_G" I R 1300 1300 50 
+F4 "LED_B" I R 1300 1400 50 
+F5 "LED_GND" I R 1300 1500 50 
+F6 "BUTTON_VCC" I R 1300 1600 50 
+F7 "BUTTON_NC" O R 1300 1700 50 
+F8 "BUTTON_NO" O R 1300 1800 50 
+$EndSheet
+NoConn ~ 1350 1700
+Wire Wire Line
+	1350 1700 1300 1700
+Text GLabel 1100 750  0    50   Input ~ 0
+V_BATTERY
+Wire Wire Line
+	1200 750  1100 750 
+Text GLabel 850  900  0    50   Input ~ 0
+GND
+Text GLabel 1350 1600 2    50   Output ~ 0
+V_BATTERY
+Wire Wire Line
+	1350 1600 1300 1600
+Text GLabel 1350 1500 2    50   Output ~ 0
+GND
+Wire Wire Line
+	1350 1500 1300 1500
+$Sheet
+S 650  2250 650  500 
+U 60ECA2F7
+F0 "B10-1224-05_MODULE" 50
+F1 "B10-1224-05.sch" 50
+F2 "GND_IN_BUCK" I R 1300 2450 50 
+F3 "V_IN_BUCK" I R 1300 2350 50 
+F4 "5V" O R 1300 2550 50 
+F5 "5V_GND" O R 1300 2650 50 
+$EndSheet
+Text GLabel 1350 1800 2    50   Input ~ 0
+BTN_NO
+Wire Wire Line
+	1350 1800 1300 1800
+Wire Wire Line
+	1350 2350 1300 2350
+Text GLabel 1350 2450 2    50   Output ~ 0
+GND
+Wire Wire Line
+	1350 2450 1300 2450
+Text GLabel 1350 2550 2    50   Output ~ 0
+5V
+Wire Wire Line
+	1350 2550 1300 2550
+Text GLabel 1350 2650 2    50   Output ~ 0
+GND
+Wire Wire Line
+	1350 2650 1300 2650
+$Sheet
+S 650  3000 650  300 
+U 60EE0865
+F0 "USB_FASTCHARGE_MODULE" 50
+F1 "USB_FASTCHARGE_MODULE_OUTPUT.sch" 50
+F2 "MODULE_VIN" O R 1300 3100 50 
+F3 "MODULE_GND" O R 1300 3200 50 
+$EndSheet
+Text GLabel 1350 3200 2    50   Output ~ 0
+GND
+Wire Wire Line
+	1300 3200 1350 3200
+$Sheet
+S 3250 1050 1050 750 
+U 60EE26E7
+F0 "SmartSoftLatch" 50
+F1 "SmartSoftLatch.sch" 50
+F2 "VCC" I R 4300 1300 50 
+F3 "BTN_NO" I R 4300 1500 50 
+F4 "VOUT" O R 4300 1400 50 
+F5 "MCU_LATCH_BTN" O R 4300 1600 50 
+F6 "MCU_LATCH_ENABLE" I R 4300 1700 50 
+F7 "GND" O R 4300 1200 50 
+$EndSheet
+Text GLabel 4450 1200 2    50   Output ~ 0
+GND
+Wire Wire Line
+	4450 1200 4300 1200
+Text GLabel 4450 1300 2    50   Output ~ 0
+V_BATTERY
+Wire Wire Line
+	4450 1300 4300 1300
+Text GLabel 4450 1400 2    50   Input ~ 0
+V_SWITCHED
+Wire Wire Line
+	4450 1400 4300 1400
+Text GLabel 4450 1500 2    50   Output ~ 0
+BTN_NO
+Wire Wire Line
+	4450 1500 4300 1500
+Text GLabel 1350 2350 2    50   Output ~ 0
+V_SWITCHED
+Text GLabel 1350 3100 2    50   Output ~ 0
+V_SWITCHED
+Wire Wire Line
+	1350 3100 1300 3100
+$Sheet
+S 3150 2100 1400 1000
+U 60F78247
+F0 "CHARGER_STEP_UP" 50
+F1 "CHARGER_STEP_UP.sch" 50
+F2 "12V" O R 4550 2250 50 
+F3 "GND" O R 4550 2350 50 
+F4 "V_BAT" I R 4550 2450 50 
+$EndSheet
+$Comp
+L Device:D_Schottky D?
+U 1 1 60F78D38
+P 1350 750
+F 0 "D?" H 1350 967 50  0000 C CNN
+F 1 "D_Schottky" H 1350 876 50  0000 C CNN
+F 2 "" H 1350 750 50  0001 C CNN
+F 3 "~" H 1350 750 50  0001 C CNN
+	1    1350 750 
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x02_Female J?
+U 1 1 60F79BD0
+P 1850 750
+F 0 "J?" H 1878 726 50  0000 L CNN
+F 1 "BATTERY" H 1878 635 50  0000 L CNN
+F 2 "" H 1850 750 50  0001 C CNN
+F 3 "~" H 1850 750 50  0001 C CNN
+	1    1850 750 
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1500 750  1650 750 
+Wire Wire Line
+	1650 900  1650 850 
+Wire Wire Line
+	850  900  1650 900 
+Text Notes 3300 2750 0    50   ~ 0
+Used for charging powerbank \nfrom 12V source.
+$Sheet
+S 5600 1950 3400 3250
+U 60F2D9E7
+F0 "ESP32_AND_SUCH" 50
+F1 "MCU.sch" 50
+$EndSheet
+$EndSCHEMATC
