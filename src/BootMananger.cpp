@@ -64,7 +64,7 @@ BootResponse BootMananger::registerIIC() {
 #endif
         return BOOT_SECTION_FAILED;
     }
-    ret = LedDriver::fadePinUpDown(LEDRING_PIN);
+    ret = LedDriver::fadePinUpDown(LEDRING_R_PIN);
     if (ret != ESP_OK) {
 #if IS_DEBUG
         Serial.printf("Welcomes fade failed. Error: %u", ret);

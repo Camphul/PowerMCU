@@ -26,10 +26,10 @@ void taskSafeShutdown(void *args) {
     gpio_set_level(SAFESHUTDOWN_WARN_PIN, LOW);
     gpio_hold_dis(SAFESHUTDOWN_WARN_PIN);
     for (int i = 0; i < SAFESHUTDOWN_DELAY; i++) {
-        LedDriver::fadePinUpDown(LEDRING_PIN,2);
+        LedDriver::fadePinUpDown(LEDRING_R_PIN, 2);
         delay(mS_TO_S_FACTOR);
     }
-    LedDriver::setLevel(LEDRING_PIN, CHANNEL_LOW);
+    LedDriver::setLevel(LEDRING_R_PIN, CHANNEL_LOW);
     Serial.println("System has been shutdown");
     Serial.flush();
     Serial2.flush();

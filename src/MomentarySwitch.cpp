@@ -17,7 +17,7 @@ void handleOnPressed() {
     xSemaphoreTake(pressedMutex, portMAX_DELAY);
     Serial.println("Button pressed callback was fired");
     ledState = !ledState;
-    LedDriver::setLevel(LEDRING_PIN, ledState);
+    LedDriver::setLevel(LEDRING_R_PIN, ledState);
     safeShutdown();
     xSemaphoreGive(pressedMutex);
 }

@@ -8,8 +8,8 @@
  ****************************************************/
 
 /***************************************************
-  Heavily modified version to meet custom requirements.
-  Will migrate to PCA9432DP1 soon but using PCA9685 for prototyping.
+  Heavily modified version to meet custom requirements for a powerbank project im working on.
+  Will migrate to PCA9432DP1 ic soon but using PCA9685 for prototyping.
   Noncommercial use only.
   Modified by Luca Camphuisen <luca@camphuisen.com>
  ****************************************************/
