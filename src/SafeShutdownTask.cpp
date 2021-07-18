@@ -7,6 +7,7 @@
 #include "pins.h"
 #include <Arduino.h>
 #include "ServicesContainer.h"
+#include "LedPWMDriver.h"
 
 static SemaphoreHandle_t shutdownMutex = xSemaphoreCreateMutex();
 static TaskHandle_t shutdownTaskHandle;
@@ -21,15 +22,14 @@ void taskSafeShutdown(void *args) {
     shutdownServices();
     gpio_hold_en(SOFTLATCH_OUTPUT_PIN);
     gpio_set_level(SOFTLATCH_OUTPUT_PIN, HIGH);
-    gpio_set_level(LEDRING_PIN, LOW);
     Serial.println("Going for a safe shutdown!");
     gpio_set_level(SAFESHUTDOWN_WARN_PIN, LOW);
     gpio_hold_dis(SAFESHUTDOWN_WARN_PIN);
     for(int i = 0; i < SAFESHUTDOWN_DELAY; i++) {
-        gpio_set_level(LEDRING_PIN, (i+3)%2);
+        LedDriver::fadePinUpDown(LEDRING_PIN);
         delay(mS_TO_S_FACTOR);
     }
-    gpio_set_level(LEDRING_PIN, LOW);
+    LedDriver::setLevel(LEDRING_PIN, CHANNEL_LOW);
     Serial.println("System has been shutdown");
     Serial.flush();
     Serial2.flush();

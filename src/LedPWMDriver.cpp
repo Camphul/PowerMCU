@@ -7,30 +7,44 @@
   BSD license, all text above must be included in any redistribution
  ****************************************************/
 
-#include "LedControl.h"
+/***************************************************
+  Heavily modified version to meet custom requirements.
+  Will migrate to PCA9432DP1 soon but using PCA9685 for prototyping.
+  Noncommercial use only.
+  Modified by Luca Camphuisen <luca@camphuisen.com>
+ ****************************************************/
+#include "LedPWMDriver.h"
 #include <freertos/FreeRTOS.h>
-#include <freertos/semphr.h>
 #include "driver/i2c.h"
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <math.h>
+#include <cstdint>
+#include <cmath>
 #include "esp_err.h"
-#include <errno.h>
 #include "esp_log.h"
-#include "esp_system.h"
-uint8_t PCA9685_ADDR = 0x40;
-const uint16_t pwmTable[256] = {0, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 12, 12, 12, 13, 13, 13, 14, 14, 15, 15, 15, 16, 16, 17, 17, 18, 18, 19, 19, 20, 21, 21, 22, 22, 23, 24, 24, 25, 26, 27, 27, 28, 29, 30, 31, 31, 32, 33, 34, 35, 36, 37, 38, 39, 41, 42, 43, 44, 45, 47, 48, 49, 51, 52, 54, 55, 57, 59, 60, 62, 64, 66, 68, 69, 71, 74, 76, 78, 80, 82, 85, 87, 90, 92, 95, 98, 100, 103, 106, 109, 112, 116, 119, 122, 126, 130, 133, 137, 141, 145, 149, 153, 158, 162, 167, 172, 177, 182, 187, 193, 198, 204, 210, 216, 222, 228, 235, 241, 248, 255, 263, 270, 278, 286, 294, 303, 311, 320, 330, 339, 349, 359, 369, 380, 391, 402, 413, 425, 437, 450, 463, 476, 490, 504, 518, 533, 549, 564, 581, 597, 614, 632, 650, 669, 688, 708, 728, 749, 771, 793, 816, 839, 863, 888, 913, 940, 967, 994, 1023, 1052, 1082, 1114, 1146, 1178, 1212, 1247, 1283, 1320, 1358, 1397, 1437, 1478, 1520, 1564, 1609, 1655, 1703, 1752, 1802, 1854, 1907, 1962, 2018, 2076, 2135, 2197, 2260, 2325, 2391, 2460, 2531, 2603, 2678, 2755, 2834, 2916, 2999, 3085, 3174, 3265, 3359, 3455, 3555, 3657, 3762, 3870, 3981, 4095};
+#include "esp32-hal-cpu.h"
+using namespace LedDriver;
+uint8_t CONTROLLER_ADDRESS = 0x00;
+const uint16_t pwmTable[256] = {0, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 7, 7,
+                                7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 12, 12, 12, 13, 13, 13, 14,
+                                14, 15, 15, 15, 16, 16, 17, 17, 18, 18, 19, 19, 20, 21, 21, 22, 22, 23, 24, 24, 25, 26,
+                                27, 27, 28, 29, 30, 31, 31, 32, 33, 34, 35, 36, 37, 38, 39, 41, 42, 43, 44, 45, 47, 48,
+                                49, 51, 52, 54, 55, 57, 59, 60, 62, 64, 66, 68, 69, 71, 74, 76, 78, 80, 82, 85, 87, 90,
+                                92, 95, 98, 100, 103, 106, 109, 112, 116, 119, 122, 126, 130, 133, 137, 141, 145, 149,
+                                153, 158, 162, 167, 172, 177, 182, 187, 193, 198, 204, 210, 216, 222, 228, 235, 241,
+                                248, 255, 263, 270, 278, 286, 294, 303, 311, 320, 330, 339, 349, 359, 369, 380, 391,
+                                402, 413, 425, 437, 450, 463, 476, 490, 504, 518, 533, 549, 564, 581, 597, 614, 632,
+                                650, 669, 688, 708, 728, 749, 771, 793, 816, 839, 863, 888, 913, 940, 967, 994, 1023,
+                                1052, 1082, 1114, 1146, 1178, 1212, 1247, 1283, 1320, 1358, 1397, 1437, 1478, 1520,
+                                1564, 1609, 1655, 1703, 1752, 1802, 1854, 1907, 1962, 2018, 2076, 2135, 2197, 2260,
+                                2325, 2391, 2460, 2531, 2603, 2678, 2755, 2834, 2916, 2999, 3085, 3174, 3265, 3359,
+                                3455, 3555, 3657, 3762, 3870, 3981, 4095};
 
 /**
  * @brief      Sets the adress where the PCA9685 is located
  *
  * @param[in]  addr  The address
  */
-void set_pca9685_adress(uint8_t addr)
-{
-    PCA9685_ADDR = addr;
+void LedDriver::setI2CAddress(uint8_t addr) {
+    CONTROLLER_ADDRESS = addr;
 }
 
 /**
@@ -38,17 +52,16 @@ void set_pca9685_adress(uint8_t addr)
  *
  * @return     result of command
  */
-esp_err_t resetPCA9685(void)
-{
+esp_err_t LedDriver::resetLedDriver(void) {
     esp_err_t ret;
 
     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
     i2c_master_start(cmd);
-    i2c_master_write_byte(cmd, (PCA9685_ADDR << 1) | I2C_MASTER_WRITE, ACK_CHECK_EN);
+    i2c_master_write_byte(cmd, (CONTROLLER_ADDRESS << 1) | I2C_MASTER_WRITE, ACK_CHECK_EN);
     i2c_master_write_byte(cmd, MODE1, ACK_CHECK_EN);   // 0x0 = "Mode register 1"
     i2c_master_write_byte(cmd, 0x80, ACK_CHECK_EN);    // 0x80 = "Reset"
     i2c_master_stop(cmd);
-    ret = i2c_master_cmd_begin(I2C_NUM_0, cmd, 1000/portTICK_PERIOD_MS);
+    ret = i2c_master_cmd_begin(I2C_NUM_0, cmd, 1000 / portTICK_PERIOD_MS);
     i2c_cmd_link_delete(cmd);
 
     vTaskDelay(50 / portTICK_RATE_MS);
@@ -65,20 +78,19 @@ esp_err_t resetPCA9685(void)
  *
  * @return     result of command
  */
-esp_err_t generic_write_i2c_register_two_words(uint8_t regaddr, uint16_t valueOn, uint16_t valueOff)
-{
+esp_err_t LedDriver::genericWriteI2CRegisterTwoWords(uint8_t regaddr, uint16_t valueOn, uint16_t valueOff) {
     esp_err_t ret;
 
     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
     i2c_master_start(cmd);
-    i2c_master_write_byte(cmd, (PCA9685_ADDR << 1) | I2C_MASTER_WRITE, ACK_CHECK_EN);
+    i2c_master_write_byte(cmd, (CONTROLLER_ADDRESS << 1) | I2C_MASTER_WRITE, ACK_CHECK_EN);
     i2c_master_write_byte(cmd, regaddr, ACK_CHECK_EN);
     i2c_master_write_byte(cmd, valueOn & 0xff, ACK_VAL);
     i2c_master_write_byte(cmd, valueOn >> 8, NACK_VAL);
     i2c_master_write_byte(cmd, valueOff & 0xff, ACK_VAL);
     i2c_master_write_byte(cmd, valueOff >> 8, NACK_VAL);
     i2c_master_stop(cmd);
-    ret = i2c_master_cmd_begin(I2C_NUM_0, cmd, 1000/portTICK_PERIOD_MS);
+    ret = i2c_master_cmd_begin(I2C_NUM_0, cmd, 1000 / portTICK_PERIOD_MS);
     i2c_cmd_link_delete(cmd);
 
     return ret;
@@ -92,18 +104,17 @@ esp_err_t generic_write_i2c_register_two_words(uint8_t regaddr, uint16_t valueOn
  *
  * @return     result of command
  */
-esp_err_t generic_write_i2c_register_word(uint8_t regaddr, uint16_t value)
-{
+esp_err_t LedDriver::genericWriteI2CRegisterWord(uint8_t regaddr, uint16_t value) {
     esp_err_t ret;
 
     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
     i2c_master_start(cmd);
-    i2c_master_write_byte(cmd, (PCA9685_ADDR << 1) | I2C_MASTER_WRITE, ACK_CHECK_EN);
+    i2c_master_write_byte(cmd, (CONTROLLER_ADDRESS << 1) | I2C_MASTER_WRITE, ACK_CHECK_EN);
     i2c_master_write_byte(cmd, regaddr, ACK_CHECK_EN);
     i2c_master_write_byte(cmd, value & 0xff, ACK_VAL);
     i2c_master_write_byte(cmd, value >> 8, NACK_VAL);
     i2c_master_stop(cmd);
-    ret = i2c_master_cmd_begin(I2C_NUM_0, cmd, 1000/portTICK_PERIOD_MS);
+    ret = i2c_master_cmd_begin(I2C_NUM_0, cmd, 1000 / portTICK_PERIOD_MS);
     i2c_cmd_link_delete(cmd);
 
     return ret;
@@ -117,17 +128,16 @@ esp_err_t generic_write_i2c_register_word(uint8_t regaddr, uint16_t value)
  *
  * @return     result of command
  */
-esp_err_t generic_write_i2c_register(uint8_t regaddr, uint8_t value)
-{
+esp_err_t LedDriver::genericWriteI2CRegister(uint8_t regaddr, uint8_t value) {
     esp_err_t ret;
 
     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
     i2c_master_start(cmd);
-    i2c_master_write_byte(cmd, (PCA9685_ADDR << 1) | I2C_MASTER_WRITE, ACK_CHECK_EN);
+    i2c_master_write_byte(cmd, (CONTROLLER_ADDRESS << 1) | I2C_MASTER_WRITE, ACK_CHECK_EN);
     i2c_master_write_byte(cmd, regaddr, ACK_CHECK_EN);
     i2c_master_write_byte(cmd, value, NACK_VAL);
     i2c_master_stop(cmd);
-    ret = i2c_master_cmd_begin(I2C_NUM_0, cmd, 1000/portTICK_PERIOD_MS);
+    ret = i2c_master_cmd_begin(I2C_NUM_0, cmd, 1000 / portTICK_PERIOD_MS);
     i2c_cmd_link_delete(cmd);
 
     return ret;
@@ -142,13 +152,12 @@ esp_err_t generic_write_i2c_register(uint8_t regaddr, uint8_t value)
  *
  * @return     result of command
  */
-esp_err_t generic_read_two_i2c_register(uint8_t regaddr, uint8_t* valueA, uint8_t* valueB)
-{
+esp_err_t LedDriver::genericReadTwoI2CRegister(uint8_t regaddr, uint8_t *valueA, uint8_t *valueB) {
     esp_err_t ret;
 
     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
     i2c_master_start(cmd);
-    i2c_master_write_byte(cmd, (PCA9685_ADDR << 1) | I2C_MASTER_WRITE, ACK_CHECK_EN);
+    i2c_master_write_byte(cmd, (CONTROLLER_ADDRESS << 1) | I2C_MASTER_WRITE, ACK_CHECK_EN);
     i2c_master_write_byte(cmd, regaddr, ACK_CHECK_EN);
     i2c_master_stop(cmd);
     ret = i2c_master_cmd_begin(I2C_NUM_0, cmd, 1000 / portTICK_RATE_MS);
@@ -158,7 +167,7 @@ esp_err_t generic_read_two_i2c_register(uint8_t regaddr, uint8_t* valueA, uint8_
     }
     cmd = i2c_cmd_link_create();
     i2c_master_start(cmd);
-    i2c_master_write_byte(cmd, PCA9685_ADDR << 1 | I2C_MASTER_READ, ACK_CHECK_EN);
+    i2c_master_write_byte(cmd, CONTROLLER_ADDRESS << 1 | I2C_MASTER_READ, ACK_CHECK_EN);
     i2c_master_read_byte(cmd, valueA, ACK_VAL);
     i2c_master_read_byte(cmd, valueB, NACK_VAL);
     i2c_master_stop(cmd);
@@ -176,14 +185,13 @@ esp_err_t generic_read_two_i2c_register(uint8_t regaddr, uint8_t* valueA, uint8_
  *
  * @return     result of command
  */
-esp_err_t generic_read_i2c_register_word(uint8_t regaddr, uint16_t* value)
-{
+esp_err_t LedDriver::genericReadI2CRegisterWord(uint8_t regaddr, uint16_t *value) {
     esp_err_t ret;
 
     uint8_t valueA;
     uint8_t valueB;
 
-    ret = generic_read_two_i2c_register(regaddr, &valueA, &valueB);
+    ret = genericReadTwoI2CRegister(regaddr, &valueA, &valueB);
     if (ret != ESP_OK) {
         return ret;
     }
@@ -201,38 +209,42 @@ esp_err_t generic_read_i2c_register_word(uint8_t regaddr, uint16_t* value)
  *
  * @return     result of command
  */
-esp_err_t setFrequencyPCA9685(uint16_t freq)
-{
+esp_err_t LedDriver::setI2CLedDriverFrequency(uint16_t freq) {
     esp_err_t ret;
 
     // Send to sleep
-    ret = generic_write_i2c_register(MODE1, 0x10);
+    ret = genericWriteI2CRegister(MODE1, 0x10);
     if (ret != ESP_OK) {
         return ret;
     }
 
     // Set prescaler
     // calculation on page 25 of datasheet
-    uint8_t prescale_val = round((CLOCK_FREQ / 4096 / (0.9*freq)) - 1+0.5);
-    ret = generic_write_i2c_register(PRE_SCALE, prescale_val);
+    uint32_t cpu_freq = getCpuFrequencyMhz() * HZ_TO_MHZ_SCALER;
+    if (cpu_freq == 0) {
+        /* DIVIDE BY ZERO IS NOT ALLOWED */
+        return ESP_ERR_INVALID_STATE;
+    }
+    uint8_t prescale_val = round((cpu_freq / 4096 / (0.9 * freq)) - 1 + 0.5);
+    ret = genericWriteI2CRegister(PRE_SCALE, prescale_val);
     if (ret != ESP_OK) {
         return ret;
     }
 
     // reset again
-    resetPCA9685();
+    resetLedDriver();
 
     // Send to sleep again
-    ret = generic_write_i2c_register(MODE1, 0x10);
+    ret = genericWriteI2CRegister(MODE1, 0x10);
     if (ret != ESP_OK) {
         return ret;
     }
 
     // wait
-    vTaskDelay(5/portTICK_PERIOD_MS);
+    vTaskDelay(5 / portTICK_PERIOD_MS);
 
     // Write 0xa0 for auto increment LED0_x after received cmd
-    ret = generic_write_i2c_register(MODE1, 0xa0);
+    ret = genericWriteI2CRegister(MODE1, 0xa0);
     if (ret != ESP_OK) {
         return ret;
     }
@@ -240,7 +252,7 @@ esp_err_t setFrequencyPCA9685(uint16_t freq)
     // // Read back set data
     // cmd = i2c_cmd_link_create();
     // i2c_master_start(cmd);
-    // i2c_master_write_byte(cmd, (PCA9685_ADDR << 1) | I2C_MASTER_READ, 1);
+    // i2c_master_write_byte(cmd, (CONTROLLER_ADDRESS << 1) | I2C_MASTER_READ, 1);
     // i2c_master_read_byte(cmd, data,   0);
     // i2c_master_read_byte(cmd, data+1, 0);
     // i2c_master_read_byte(cmd, data+2, 1);
@@ -263,16 +275,32 @@ esp_err_t setFrequencyPCA9685(uint16_t freq)
  *
  * @return     result of command
  */
-esp_err_t setPWM(uint8_t num, uint16_t on, uint16_t off)
-{
+esp_err_t LedDriver::setPWM(uint8_t num, uint16_t on, uint16_t off) {
     esp_err_t ret;
 
     uint8_t pinAddress = LED0_ON_L + LED_MULTIPLYER * num;
-    ret = generic_write_i2c_register_two_words(pinAddress & 0xff, on, off);
+    ret = genericWriteI2CRegisterTwoWords(pinAddress & 0xff, on, off);
 
     return ret;
 }
 
+
+/**
+ * @brief Sets a channel either fully on or fully off depending on state.
+ * @param num i2c channel num
+ * @param value new channel value
+ * @return
+ */
+esp_err_t LedDriver::setLevel(uint8_t num, bool value) {
+    switch (value) {
+        case CHANNEL_HIGH:
+            return setPWM(num, PWM_VALUE_MAX, PWM_VALUE_MIN);
+        case CHANNEL_LOW:
+            return setPWM(num, PWM_VALUE_MIN, PWM_VALUE_MAX);
+        default:
+            return ESP_ERR_INVALID_STATE;
+    }
+}
 /**
  * @brief      Gets the pwm of a pin detail
  *
@@ -286,19 +314,19 @@ esp_err_t setPWM(uint8_t num, uint16_t on, uint16_t off)
  *
  * @return     result of command
  */
-esp_err_t getPWMDetail(uint8_t num, uint8_t* dataReadOn0, uint8_t* dataReadOn1, uint8_t* dataReadOff0, uint8_t* dataReadOff1)
-{
+esp_err_t
+LedDriver::getPWMDetail(uint8_t num, uint8_t *dataReadOn0, uint8_t *dataReadOn1, uint8_t *dataReadOff0, uint8_t *dataReadOff1) {
     esp_err_t ret;
 
     uint8_t pinAddress = LED0_ON_L + LED_MULTIPLYER * num;
 
-    ret = generic_read_two_i2c_register(pinAddress, dataReadOn0, dataReadOn1);
+    ret = genericReadTwoI2CRegister(pinAddress, dataReadOn0, dataReadOn1);
     if (ret != ESP_OK) {
         return ret;
     }
 
     pinAddress = LED0_OFF_L + LED_MULTIPLYER * num;
-    ret = generic_read_two_i2c_register(pinAddress, dataReadOff0, dataReadOff1);
+    ret = genericReadTwoI2CRegister(pinAddress, dataReadOff0, dataReadOff1);
 
     return ret;
 }
@@ -312,8 +340,7 @@ esp_err_t getPWMDetail(uint8_t num, uint8_t* dataReadOn0, uint8_t* dataReadOn1, 
  *
  * @return     result of command
  */
-esp_err_t getPWM(uint8_t num, uint16_t* dataOn, uint16_t* dataOff)
-{
+esp_err_t LedDriver::getPWM(uint8_t num, uint16_t *dataOn, uint16_t *dataOff) {
     esp_err_t ret;
 
     uint8_t readPWMValueOn0;
@@ -334,17 +361,9 @@ esp_err_t getPWM(uint8_t num, uint16_t* dataOn, uint16_t* dataOff)
  *
  * @return     result of command
  */
-esp_err_t turnAllOff(void)
-{
-    esp_err_t ret;
-
-    uint16_t valueOn = 0;
-    uint16_t valueOff = 4096;
-    ret = generic_write_i2c_register_two_words(ALLLED_ON_L, valueOn, valueOff);
-
-    return ret;
+esp_err_t LedDriver::turnAllOff(void) {
+    return genericWriteI2CRegisterTwoWords(ALLLED_ON_L, PWM_VALUE_MIN, PWM_VALUE_MAX);
 }
-
 /**
  * @brief      fade pin up to maximum and back down
  *
@@ -352,38 +371,45 @@ esp_err_t turnAllOff(void)
  *
  * @return     result of command
  */
-esp_err_t fade_pin_up_down(uint8_t pin)
-{
+esp_err_t LedDriver::fadePinUpDown(uint8_t pin) {
+    return fadePinUpDown(pin, PWM_DEFAULT_FADING_DELAY);
+}
+/**
+ * @brief      fade pin up to maximum and back down
+ *
+ * @param[in]  pin   The pin
+ * @param[in]  delayTime delay between steps
+ * @return     result of command
+ */
+esp_err_t LedDriver::fadePinUpDown(uint8_t pin, uint16_t delayTime) {
     esp_err_t ret;
 
-    for (uint8_t i = 0; i < 255; i++)
-    {
+    for (uint8_t i = 0; i < 255; i++) {
         // fade up
-        ret = setPWM(pin, 0, pwmTable[i]);
+        ret = setPWM(pin, PWM_VALUE_MIN, pwmTable[i]);
         if (ret != ESP_OK) {
             return ret;
         }
 
-        vTaskDelay(50/portTICK_PERIOD_MS);
+        vTaskDelay(delayTime / portTICK_PERIOD_MS);
     }
 
-    for (uint8_t i = 0; i < 255; i++)
-    {
+    for (uint8_t i = 1/*since we already at the max*/; i < 255; i++) {
         // fade down
-        ret = setPWM(pin, pwmTable[i], 0);
+        ret = setPWM(pin, pwmTable[i], PWM_VALUE_MIN);
         if (ret != ESP_OK) {
             return ret;
         }
 
-        vTaskDelay(50/portTICK_PERIOD_MS);
+        vTaskDelay(delayTime / portTICK_PERIOD_MS);
     }
 
     // ensure it's really off
-    ret = setPWM(pin, 0, 4096);
+    ret = setLevel(pin, CHANNEL_LOW);
     if (ret != ESP_OK) {
         return ret;
     }
-    vTaskDelay(100/portTICK_PERIOD_MS);
+    vTaskDelay(50 / portTICK_PERIOD_MS);
 
     return ret;
 }
@@ -393,40 +419,22 @@ esp_err_t fade_pin_up_down(uint8_t pin)
  *
  * @return     result of command
  */
-esp_err_t fade_all_up_down(void)
-{
+esp_err_t LedDriver::fadeAllUpDown(void) {
+    return fadeAllUpDown(PWM_DEFAULT_FADING_DELAY);
+}
+/**
+* @brief      fade each pin up to maximum and back down
+* @param [in] delayTime delaytime between each pwm cycle
+* @return     result of command
+*/
+esp_err_t LedDriver::fadeAllUpDown(uint16_t delayTime) {
     esp_err_t ret;
 
-    for (uint8_t pin = 0; pin < 3; pin++)
-    {
-        for (uint8_t i = 0; i < 255; i++)
-        {
-            // fade up
-            ret = setPWM(pin, 0, pwmTable[i]);
-            if (ret != ESP_OK) {
-                return ret;
-            }
-
-            vTaskDelay(5/portTICK_PERIOD_MS);
-        }
-
-        for (uint8_t i = 0; i < 255; i++)
-        {
-            // fade down
-            ret = setPWM(pin, pwmTable[i], 0);
-            if (ret != ESP_OK) {
-                return ret;
-            }
-
-            vTaskDelay(5/portTICK_PERIOD_MS);
-        }
-
-        // ensure it's really off
-        ret = setPWM(pin, 0, 4096);
+    for (uint8_t pin = 0; pin < USED_PWM_CHANNELS; pin++) {
+        ret = fadePinUpDown(pin, delayTime);
         if (ret != ESP_OK) {
             return ret;
         }
-        vTaskDelay(100/portTICK_PERIOD_MS);
     }
 
     return ret;
@@ -438,14 +446,11 @@ esp_err_t fade_all_up_down(void)
  * @param      buf   The buffer
  * @param[in]  len   The length
  */
-void disp_buf(uint16_t* buf, uint8_t len)
-{
+void LedDriver::displayBuffer(uint16_t *buf, uint8_t len) {
     uint8_t i;
-    for (i = 0; i < len; i++)
-    {
+    for (i = 0; i < len; i++) {
         printf("%02x ", buf[i]);
-        if (( i + 1 ) % 16 == 0)
-        {
+        if ((i + 1) % 16 == 0) {
             printf("\n");
         }
     }

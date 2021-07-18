@@ -42,5 +42,4 @@ static const BaseType_t app_cpu = 1;
 
 #define SAFESHUTDOWN_DELAY 30 // IN SECONDS
 
-
 #endif //POWERMCU_CONFIG_H

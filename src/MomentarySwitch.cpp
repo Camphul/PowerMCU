@@ -7,6 +7,7 @@
 #include "config.h"
 #include <EasyButton.h>
 #include "SafeShutdownTask.h"
+#include "LedPWMDriver.h"
 
 static SemaphoreHandle_t btnMutex = xSemaphoreCreateMutex();
 static SemaphoreHandle_t pressedMutex = xSemaphoreCreateMutex();
@@ -16,7 +17,7 @@ void handleOnPressed() {
     xSemaphoreTake(pressedMutex, portMAX_DELAY);
     Serial.println("Button pressed callback was fired");
     ledState = !ledState;
-    gpio_set_level(LEDRING_PIN, ledState);
+    LedDriver::setLevel(LEDRING_PIN, ledState);
     safeShutdown();
     xSemaphoreGive(pressedMutex);
 }
