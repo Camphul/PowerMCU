@@ -11,6 +11,7 @@
 #include "driver/rtc_io.h"
 #include "ServicesContainer.h"
 #include "LedPWMDriver.h"
+
 static ServicesContainer servicesContainer;
 
 BootMananger::BootMananger() {
@@ -57,17 +58,17 @@ BootResponse BootMananger::registerIIC() {
     LedDriver::setI2CAddress(I2C_ADDRESS_LED_PWM_DRIVER);
     LedDriver::setI2CLedDriverFrequency(PWM_DRIVER_FREQ_MAX);
     esp_err_t ret = LedDriver::turnAllOff();
-    if(ret != ESP_OK){
-        #if IS_DEBUG
+    if (ret != ESP_OK) {
+#if IS_DEBUG
         Serial.printf("Failed boot due to led driver not turning off all. Error: %u", ret);
-        #endif
+#endif
         return BOOT_SECTION_FAILED;
     }
-    ret = LedDriver::fadePinUpDown(LEDRING_PIN,15);
-    if(ret != ESP_OK){
-        #if IS_DEBUG
+    ret = LedDriver::fadePinUpDown(LEDRING_PIN, 15);
+    if (ret != ESP_OK) {
+#if IS_DEBUG
         Serial.printf("Welcomes fade failed. Error: %u", ret);
-        #endif
+#endif
         return BOOT_SECTION_FAILED;
     }
     return BOOT_SECTION_OK;

@@ -4,6 +4,7 @@
 
 #ifndef POWERMCU_CONFIG_H
 #define POWERMCU_CONFIG_H
+
 #include <FreeRTOS.h>
 #include "esp32-hal-uart.h"
 

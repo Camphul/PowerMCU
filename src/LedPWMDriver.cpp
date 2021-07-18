@@ -21,6 +21,7 @@
 #include "esp_err.h"
 #include "esp_log.h"
 #include "esp32-hal-cpu.h"
+
 using namespace LedDriver;
 uint8_t CONTROLLER_ADDRESS = 0x00;
 const uint16_t pwmTable[256] = {0, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 7, 7,
@@ -301,6 +302,7 @@ esp_err_t LedDriver::setLevel(uint8_t num, bool value) {
             return ESP_ERR_INVALID_STATE;
     }
 }
+
 /**
  * @brief      Gets the pwm of a pin detail
  *
@@ -315,7 +317,8 @@ esp_err_t LedDriver::setLevel(uint8_t num, bool value) {
  * @return     result of command
  */
 esp_err_t
-LedDriver::getPWMDetail(uint8_t num, uint8_t *dataReadOn0, uint8_t *dataReadOn1, uint8_t *dataReadOff0, uint8_t *dataReadOff1) {
+LedDriver::getPWMDetail(uint8_t num, uint8_t *dataReadOn0, uint8_t *dataReadOn1, uint8_t *dataReadOff0,
+                        uint8_t *dataReadOff1) {
     esp_err_t ret;
 
     uint8_t pinAddress = LED0_ON_L + LED_MULTIPLYER * num;
@@ -364,6 +367,7 @@ esp_err_t LedDriver::getPWM(uint8_t num, uint16_t *dataOn, uint16_t *dataOff) {
 esp_err_t LedDriver::turnAllOff(void) {
     return genericWriteI2CRegisterTwoWords(ALLLED_ON_L, PWM_VALUE_MIN, PWM_VALUE_MAX);
 }
+
 /**
  * @brief      fade pin up to maximum and back down
  *
@@ -374,6 +378,7 @@ esp_err_t LedDriver::turnAllOff(void) {
 esp_err_t LedDriver::fadePinUpDown(uint8_t pin) {
     return fadePinUpDown(pin, PWM_DEFAULT_FADING_DELAY);
 }
+
 /**
  * @brief      fade pin up to maximum and back down
  *
@@ -422,6 +427,7 @@ esp_err_t LedDriver::fadePinUpDown(uint8_t pin, uint16_t delayTime) {
 esp_err_t LedDriver::fadeAllUpDown(void) {
     return fadeAllUpDown(PWM_DEFAULT_FADING_DELAY);
 }
+
 /**
 * @brief      fade each pin up to maximum and back down
 * @param [in] delayTime delaytime between each pwm cycle

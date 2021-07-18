@@ -7,9 +7,11 @@
 #include "SleepManager.h"
 #include "BMSCommunicator.h"
 #include "LedPWMDriver.h"
+
 static TaskHandle_t handle_taskMomentaryButtonRead;
 static TaskHandle_t handle_taskSleepManager;
 static TaskHandle_t handle_taskBMSCommunicator;
+
 //static TaskHandle_t handle_taskStatusLCD;
 void ServicesContainer::registerServices() {
     xTaskCreate(taskSleepManager, "Deepsleeps MCU to preserve power", 2048, NULL, 1, &handle_taskSleepManager);

@@ -27,7 +27,7 @@ void SleepManager::initTimedSleep() {
         Serial.println("EXT0 wakeup  reason triggered");
         delay(400);
         safeShutdown();
-        delay(SAFESHUTDOWN_DELAY*mS_TO_S_FACTOR + 2000);
+        delay(SAFESHUTDOWN_DELAY * mS_TO_S_FACTOR + 2000);
     }
     gpio_set_intr_type(SOFTLATCH_BTN_PIN, GPIO_INTR_POSEDGE);
     gpio_intr_enable(SOFTLATCH_BTN_PIN);
