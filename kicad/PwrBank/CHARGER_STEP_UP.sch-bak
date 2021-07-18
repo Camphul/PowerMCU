@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 6 9
+Sheet 5 8
 Title ""
 Date ""
 Rev ""
@@ -13,17 +13,11 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-Text HLabel 2450 1350 0    50   Output ~ 0
-12V
-Text HLabel 3250 2050 0    50   Output ~ 0
-GND
-Text HLabel 4950 1350 2    50   Input ~ 0
-V_BAT
 $Comp
-L Regulator_Switching:LM2731XMF U?
+L Regulator_Switching:LM2731XMF U1
 U 1 1 60F7DE4D
 P 3350 1450
-F 0 "U?" H 3350 1817 50  0000 C CNN
+F 0 "U1" H 3350 1817 50  0000 C CNN
 F 1 "LM2731XMF" H 3350 1726 50  0000 C CNN
 F 2 "Package_TO_SOT_SMD:SOT-23-5" H 3400 1200 50  0001 L CIN
 F 3 "http://www.ti.com/lit/ds/symlink/lm2731.pdf" H 3350 1550 50  0001 C CNN
@@ -31,10 +25,10 @@ F 3 "http://www.ti.com/lit/ds/symlink/lm2731.pdf" H 3350 1550 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R_Small R?
+L Device:R_Small R8
 U 1 1 60F8065D
 P 2800 1700
-F 0 "R?" V 2996 1700 50  0000 C CNN
+F 0 "R8" V 2996 1700 50  0000 C CNN
 F 1 "51K" V 2905 1700 50  0000 C CNN
 F 2 "" H 2800 1700 50  0001 C CNN
 F 3 "~" H 2800 1700 50  0001 C CNN
@@ -55,10 +49,10 @@ Wire Wire Line
 	2550 1350 2900 1350
 Connection ~ 2550 1350
 $Comp
-L Device:L L?
+L Device:L L1
 U 1 1 60F81993
 P 3350 900
-F 0 "L?" V 3169 900 50  0000 C CNN
+F 0 "L1" V 3169 900 50  0000 C CNN
 F 1 "10uH" V 3260 900 50  0000 C CNN
 F 2 "" H 3350 900 50  0001 C CNN
 F 3 "~" H 3350 900 50  0001 C CNN
@@ -76,13 +70,11 @@ Wire Wire Line
 Connection ~ 2900 1350
 Wire Wire Line
 	2900 1350 3050 1350
-Text HLabel 2550 900  0    50   Output ~ 0
-GND
 $Comp
-L Device:C_Small C?
+L Device:C_Small C3
 U 1 1 60F839AE
 P 2750 900
-F 0 "C?" V 2521 900 50  0000 C CNN
+F 0 "C3" V 2521 900 50  0000 C CNN
 F 1 "2.2uF" V 2612 900 50  0000 C CNN
 F 2 "" H 2750 900 50  0001 C CNN
 F 3 "~" H 2750 900 50  0001 C CNN
@@ -97,10 +89,10 @@ Connection ~ 2900 900
 Wire Wire Line
 	3750 900  3750 1350
 $Comp
-L Device:D_Schottky D?
+L Device:D_Schottky D2
 U 1 1 60F85280
 P 4000 1350
-F 0 "D?" H 4000 1133 50  0000 C CNN
+F 0 "D2" H 4000 1133 50  0000 C CNN
 F 1 "D_Schottky" H 4000 1224 50  0000 C CNN
 F 2 "" H 4000 1350 50  0001 C CNN
 F 3 "~" H 4000 1350 50  0001 C CNN
@@ -111,10 +103,10 @@ Connection ~ 3750 1350
 Wire Wire Line
 	3750 1350 3850 1350
 $Comp
-L Device:R_Small R?
+L Device:R_Small R9
 U 1 1 60F86065
 P 3750 1850
-F 0 "R?" H 3809 1896 50  0000 L CNN
+F 0 "R9" H 3809 1896 50  0000 L CNN
 F 1 "15K" H 3809 1805 50  0000 L CNN
 F 2 "" H 3750 1850 50  0001 C CNN
 F 3 "~" H 3750 1850 50  0001 C CNN
@@ -135,10 +127,10 @@ Wire Wire Line
 Wire Wire Line
 	3750 1550 3650 1550
 $Comp
-L Device:R_Small R?
+L Device:R_Small R10
 U 1 1 60F8659C
 P 4450 1650
-F 0 "R?" V 4254 1650 50  0000 C CNN
+F 0 "R10" V 4254 1650 50  0000 C CNN
 F 1 "189K" V 4345 1650 50  0000 C CNN
 F 2 "" H 4450 1650 50  0001 C CNN
 F 3 "~" H 4450 1650 50  0001 C CNN
@@ -157,10 +149,10 @@ Wire Wire Line
 Wire Wire Line
 	4650 1650 4550 1650
 $Comp
-L Device:C_Small C?
+L Device:C_Small C4
 U 1 1 60F8F0DB
 P 4450 1950
-F 0 "C?" V 4221 1950 50  0000 C CNN
+F 0 "C4" V 4221 1950 50  0000 C CNN
 F 1 "220pF" V 4312 1950 50  0000 C CNN
 F 2 "" H 4450 1950 50  0001 C CNN
 F 3 "~" H 4450 1950 50  0001 C CNN
@@ -180,10 +172,10 @@ Connection ~ 4250 1650
 Wire Wire Line
 	4250 1650 3750 1650
 $Comp
-L Device:C_Small C?
+L Device:C_Small C5
 U 1 1 60F94699
 P 4450 2300
-F 0 "C?" V 4221 2300 50  0000 C CNN
+F 0 "C5" V 4221 2300 50  0000 C CNN
 F 1 "4.7uF" V 4312 2300 50  0000 C CNN
 F 2 "" H 4450 2300 50  0001 C CNN
 F 3 "~" H 4450 2300 50  0001 C CNN
@@ -203,4 +195,39 @@ Connection ~ 3750 2050
 Wire Wire Line
 	4950 1350 4650 1350
 Connection ~ 4650 1350
+$Comp
+L power:GND #PWR021
+U 1 1 60FE87BF
+P 2550 900
+F 0 "#PWR021" H 2550 650 50  0001 C CNN
+F 1 "GND" V 2555 772 50  0000 R CNN
+F 2 "" H 2550 900 50  0001 C CNN
+F 3 "" H 2550 900 50  0001 C CNN
+	1    2550 900 
+	0    1    1    0   
+$EndComp
+Text HLabel 4950 1350 2    50   Output ~ 0
+V_BATTERY_CHARGING
+$Comp
+L power:GND #PWR022
+U 1 1 60FEB4FE
+P 3250 2050
+F 0 "#PWR022" H 3250 1800 50  0001 C CNN
+F 1 "GND" V 3255 1922 50  0000 R CNN
+F 2 "" H 3250 2050 50  0001 C CNN
+F 3 "" H 3250 2050 50  0001 C CNN
+	1    3250 2050
+	0    1    1    0   
+$EndComp
+$Comp
+L power:+12V #PWR020
+U 1 1 610931AF
+P 2450 1350
+F 0 "#PWR020" H 2450 1200 50  0001 C CNN
+F 1 "+12V" V 2465 1478 50  0000 L CNN
+F 2 "" H 2450 1350 50  0001 C CNN
+F 3 "" H 2450 1350 50  0001 C CNN
+	1    2450 1350
+	0    -1   -1   0   
+$EndComp
 $EndSCHEMATC

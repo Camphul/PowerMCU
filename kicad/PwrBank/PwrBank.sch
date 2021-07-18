@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 1 9
+Sheet 1 8
 Title "Powerbank BMS Additional Circuitry"
 Date "2021-07-11"
 Rev "1"
@@ -14,147 +14,52 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Sheet
-S 650  1100 650  800 
+S 600  700  650  600 
 U 60EAFEE2
 F0 "MomentaryRGBSwitch" 50
 F1 "MomentaryRGBSwitch.sch" 50
-F2 "LED_R" I R 1300 1200 50 
-F3 "LED_G" I R 1300 1300 50 
-F4 "LED_B" I R 1300 1400 50 
-F5 "LED_GND" I R 1300 1500 50 
-F6 "BUTTON_VCC" I R 1300 1600 50 
-F7 "BUTTON_NC" O R 1300 1700 50 
-F8 "BUTTON_NO" O R 1300 1800 50 
+F2 "LED_R" I R 1250 800 50 
+F3 "LED_G" I R 1250 900 50 
+F4 "LED_B" I R 1250 1000 50 
+F7 "BUTTON_NC" O R 1250 1100 50 
+F8 "BUTTON_NO" O R 1250 1200 50 
 $EndSheet
-NoConn ~ 1350 1700
-Wire Wire Line
-	1350 1700 1300 1700
-Text GLabel 1100 750  0    50   Input ~ 0
-V_BATTERY
-Wire Wire Line
-	1200 750  1100 750 
-Text GLabel 850  900  0    50   Input ~ 0
-GND
-Text GLabel 1350 1600 2    50   Output ~ 0
-V_BATTERY
-Wire Wire Line
-	1350 1600 1300 1600
-Text GLabel 1350 1500 2    50   Output ~ 0
-GND
-Wire Wire Line
-	1350 1500 1300 1500
-$Sheet
-S 650  2250 650  500 
-U 60ECA2F7
-F0 "B10-1224-05_MODULE" 50
-F1 "B10-1224-05.sch" 50
-F2 "GND_IN_BUCK" I R 1300 2450 50 
-F3 "V_IN_BUCK" I R 1300 2350 50 
-F4 "5V" O R 1300 2550 50 
-F5 "5V_GND" O R 1300 2650 50 
-$EndSheet
-Text GLabel 1350 1800 2    50   Input ~ 0
+NoConn ~ 1250 1100
+Text GLabel 1250 1200 2    50   Input ~ 0
 BTN_NO
-Wire Wire Line
-	1350 1800 1300 1800
-Wire Wire Line
-	1350 2350 1300 2350
-Text GLabel 1350 2450 2    50   Output ~ 0
-GND
-Wire Wire Line
-	1350 2450 1300 2450
-Text GLabel 1350 2550 2    50   Output ~ 0
-5V
-Wire Wire Line
-	1350 2550 1300 2550
-Text GLabel 1350 2650 2    50   Output ~ 0
-GND
-Wire Wire Line
-	1350 2650 1300 2650
 $Sheet
-S 650  3000 650  300 
+S 600  2600 650  300 
 U 60EE0865
 F0 "USB_FASTCHARGE_MODULE" 50
 F1 "USB_FASTCHARGE_MODULE_OUTPUT.sch" 50
-F2 "MODULE_VIN" O R 1300 3100 50 
-F3 "MODULE_GND" O R 1300 3200 50 
+F2 "MODULE_VIN" O R 1250 2700 50 
+F3 "MODULE_GND" O R 1250 2800 50 
 $EndSheet
-Text GLabel 1350 3200 2    50   Output ~ 0
-GND
 Wire Wire Line
-	1300 3200 1350 3200
+	1250 2800 1300 2800
 $Sheet
-S 3250 1050 1050 750 
+S 3400 1050 900  750 
 U 60EE26E7
 F0 "SmartSoftLatch" 50
 F1 "SmartSoftLatch.sch" 50
-F2 "VCC" I R 4300 1300 50 
 F3 "BTN_NO" I R 4300 1500 50 
-F4 "VOUT" O R 4300 1400 50 
 F5 "MCU_LATCH_BTN" O R 4300 1600 50 
 F6 "MCU_LATCH_ENABLE" I R 4300 1700 50 
-F7 "GND" O R 4300 1200 50 
 $EndSheet
-Text GLabel 4450 1200 2    50   Output ~ 0
-GND
-Wire Wire Line
-	4450 1200 4300 1200
-Text GLabel 4450 1300 2    50   Output ~ 0
-V_BATTERY
-Wire Wire Line
-	4450 1300 4300 1300
-Text GLabel 4450 1400 2    50   Input ~ 0
-V_SWITCHED
-Wire Wire Line
-	4450 1400 4300 1400
 Text GLabel 4450 1500 2    50   Output ~ 0
 BTN_NO
 Wire Wire Line
 	4450 1500 4300 1500
-Text GLabel 1350 2350 2    50   Output ~ 0
-V_SWITCHED
-Text GLabel 1350 3100 2    50   Output ~ 0
-V_SWITCHED
 Wire Wire Line
-	1350 3100 1300 3100
+	1300 2700 1250 2700
 $Sheet
-S 8050 1400 1400 1000
+S 3200 3650 1400 1000
 U 60F78247
 F0 "CHARGER_STEP_UP" 50
 F1 "CHARGER_STEP_UP.sch" 50
-F2 "12V" O R 9450 1550 50 
-F3 "GND" O R 9450 1650 50 
-F4 "V_BAT" I R 9450 1750 50 
+F3 "V_BATTERY_CHARGING" O R 4600 4000 50 
 $EndSheet
-$Comp
-L Device:D_Schottky D?
-U 1 1 60F78D38
-P 1350 750
-F 0 "D?" H 1350 967 50  0000 C CNN
-F 1 "D_Schottky" H 1350 876 50  0000 C CNN
-F 2 "" H 1350 750 50  0001 C CNN
-F 3 "~" H 1350 750 50  0001 C CNN
-	1    1350 750 
-	1    0    0    -1  
-$EndComp
-$Comp
-L Connector:Conn_01x02_Female J?
-U 1 1 60F79BD0
-P 1850 750
-F 0 "J?" H 1878 726 50  0000 L CNN
-F 1 "BATTERY" H 1878 635 50  0000 L CNN
-F 2 "" H 1850 750 50  0001 C CNN
-F 3 "~" H 1850 750 50  0001 C CNN
-	1    1850 750 
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	1500 750  1650 750 
-Wire Wire Line
-	1650 900  1650 850 
-Wire Wire Line
-	850  900  1650 900 
-Text Notes 8100 2050 0    50   ~ 0
+Text Notes 3250 4300 0    50   ~ 0
 Used for charging powerbank \nfrom 12V source.
 $Sheet
 S 3200 2200 2200 1050
@@ -169,22 +74,7 @@ F6 "LEDRING" O R 5400 2750 50
 F7 "SDA1" B R 5400 3050 50 
 F8 "SCL1" O R 5400 3150 50 
 F9 "SOFTLATCH_BTN_3v3" I L 3200 2750 50 
-F10 "5V" U L 3200 2400 50 
-F11 "3V3" O L 3200 2500 50 
-F12 "MCU_GND" U L 3200 2300 50 
 $EndSheet
-Wire Wire Line
-	3100 2400 3200 2400
-Text GLabel 3100 2400 0    50   Output ~ 0
-5V
-Text GLabel 3100 2300 0    50   Output ~ 0
-GND
-Wire Wire Line
-	3100 2300 3200 2300
-Text GLabel 3100 2500 0    50   Output ~ 0
-3v3
-Wire Wire Line
-	3100 2500 3200 2500
 Text GLabel 3100 2600 0    50   Input ~ 0
 MCU_LATCH_EN
 Wire Wire Line
@@ -202,12 +92,12 @@ Wire Wire Line
 Text GLabel 4450 1600 2    50   Input ~ 0
 MCU_LATCH_BTN
 $Comp
-L Connector:Conn_01x02_Female J?
+L Connector:Conn_01x02_Female J3
 U 1 1 60F61784
 P 5750 3050
-F 0 "J?" H 5778 3026 50  0000 L CNN
+F 0 "J3" H 5778 3026 50  0000 L CNN
 F 1 "I2C BUS" H 5778 2935 50  0000 L CNN
-F 2 "" H 5750 3050 50  0001 C CNN
+F 2 "Connector_JST:JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical" H 5750 3050 50  0001 C CNN
 F 3 "~" H 5750 3050 50  0001 C CNN
 	1    5750 3050
 	1    0    0    -1  
@@ -216,53 +106,23 @@ Wire Wire Line
 	5400 3050 5550 3050
 Wire Wire Line
 	5550 3150 5400 3150
-$Comp
-L Connector:Conn_01x02_Female J?
-U 1 1 60F625B7
-P 6250 2750
-F 0 "J?" H 6278 2726 50  0000 L CNN
-F 1 "LEDRING" H 6278 2635 50  0000 L CNN
-F 2 "" H 6250 2750 50  0001 C CNN
-F 3 "~" H 6250 2750 50  0001 C CNN
-	1    6250 2750
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	5400 2750 6050 2750
-Text GLabel 6050 2850 0    50   Output ~ 0
-GND
-$Comp
-L Connector:Conn_01x02_Female J?
-U 1 1 60F64EEF
-P 6250 2500
-F 0 "J?" H 6278 2476 50  0000 L CNN
-F 1 "SAFE_SHUTDOWN_WARNING" H 6278 2385 50  0000 L CNN
-F 2 "" H 6250 2500 50  0001 C CNN
-F 3 "~" H 6250 2500 50  0001 C CNN
-	1    6250 2500
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	5400 2650 5950 2650
-Text GLabel 6050 2500 0    50   Output ~ 0
-GND
 Wire Wire Line
 	5950 2650 5950 2600
 Wire Wire Line
 	5950 2600 6050 2600
 $Comp
-L Connector:Conn_01x04_Female J?
+L Connector:Conn_01x04_Female J4
 U 1 1 60F67167
 P 5800 1400
-F 0 "J?" H 5828 1376 50  0000 L CNN
-F 1 "BMS_UART" H 5828 1285 50  0000 L CNN
-F 2 "" H 5800 1400 50  0001 C CNN
-F 3 "~" H 5800 1400 50  0001 C CNN
+F 0 "J4" V 5738 1112 50  0000 R CNN
+F 1 "BMS_UART" V 5647 1112 50  0000 R CNN
+F 2 "Connector_JST:JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical" H 5800 1400 50  0001 C CNN
+F 3 "https://www.jst-mfg.com/product/pdf/eng/eXH.pdf" H 5800 1400 50  0001 C CNN
 	1    5800 1400
 	0    -1   -1   0   
 $EndComp
-Text GLabel 5700 1750 3    50   Output ~ 0
-GND
 Wire Wire Line
 	5400 2300 5800 2300
 Wire Wire Line
@@ -276,4 +136,275 @@ Wire Wire Line
 NoConn ~ 6000 1600
 Text Notes 6050 1750 0    50   ~ 0
 VCC from BMS is 10V, dont connect\n\n
+Text GLabel 850  3600 2    50   Output ~ 0
+V_BATTERY_CHARGING
+Text GLabel 4650 4000 2    50   Output ~ 0
+V_BATTERY_CHARGING
+Wire Wire Line
+	4650 4000 4600 4000
+$Comp
+L Device:Fuse_Small F1
+U 1 1 60FAD177
+P 1050 3900
+F 0 "F1" H 1050 4085 50  0000 C CNN
+F 1 "30A" H 1050 3994 50  0000 C CNN
+F 2 "Fuse:Fuseholder_Blade_Mini_Keystone_3568" H 1050 3900 50  0001 C CNN
+F 3 "https://www.keyelco.com/userAssets/file/M65p42.pdf" H 1050 3900 50  0001 C CNN
+	1    1050 3900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1250 3900 1150 3900
+$Comp
+L Connector:Conn_01x02_Female J2
+U 1 1 60FB0D32
+P 1450 4350
+F 0 "J2" H 1478 4326 50  0000 L CNN
+F 1 "CHARGEPORT" H 1478 4235 50  0000 L CNN
+F 2 "Connector_JST:JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical" H 1450 4350 50  0001 C CNN
+F 3 "https://www.jst-mfg.com/product/pdf/eng/eXH.pdf" H 1450 4350 50  0001 C CNN
+	1    1450 4350
+	1    0    0    1   
+$EndComp
+Wire Wire Line
+	1150 4350 1250 4350
+Wire Wire Line
+	1150 4250 1250 4250
+Wire Wire Line
+	700  3900 950  3900
+Wire Wire Line
+	850  3600 700  3600
+Wire Notes Line
+	2000 4800 2000 3450
+Wire Notes Line
+	2000 3450 600  3450
+Wire Notes Line
+	600  3450 600  4800
+Wire Notes Line
+	600  4800 2000 4800
+Text Notes 600  3400 0    50   ~ 10
+BMS Battery in port and charging port.
+Text GLabel 5450 2750 2    50   Input ~ 0
+LEDRING_R
+Wire Wire Line
+	5450 2750 5400 2750
+Text GLabel 1300 800  2    50   Output ~ 0
+LEDRING_R
+Wire Wire Line
+	1300 800  1250 800 
+NoConn ~ 1250 900 
+NoConn ~ 1250 1000
+$Comp
+L power:+BATT #PWR03
+U 1 1 60FEDA44
+P 1250 3900
+F 0 "#PWR03" H 1250 3750 50  0001 C CNN
+F 1 "+BATT" V 1265 4028 50  0000 L CNN
+F 2 "" H 1250 3900 50  0001 C CNN
+F 3 "" H 1250 3900 50  0001 C CNN
+	1    1250 3900
+	0    1    1    0   
+$EndComp
+$Comp
+L power:+12V #PWR02
+U 1 1 60FEFA09
+P 1150 4250
+F 0 "#PWR02" H 1150 4100 50  0001 C CNN
+F 1 "+12V" V 1165 4378 50  0000 L CNN
+F 2 "" H 1150 4250 50  0001 C CNN
+F 3 "" H 1150 4250 50  0001 C CNN
+	1    1150 4250
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR01
+U 1 1 60FF3549
+P 1050 4400
+F 0 "#PWR01" H 1050 4150 50  0001 C CNN
+F 1 "GND" V 1055 4272 50  0000 R CNN
+F 2 "" H 1050 4400 50  0001 C CNN
+F 3 "" H 1050 4400 50  0001 C CNN
+	1    1050 4400
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	1050 4400 1150 4400
+Wire Wire Line
+	1150 4400 1150 4350
+$Comp
+L power:GND #PWR05
+U 1 1 6100046F
+P 1300 2800
+F 0 "#PWR05" H 1300 2550 50  0001 C CNN
+F 1 "GND" V 1305 2672 50  0000 R CNN
+F 2 "" H 1300 2800 50  0001 C CNN
+F 3 "" H 1300 2800 50  0001 C CNN
+	1    1300 2800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L +batt_switched:+BATT_SWITCHED #PWR04
+U 1 1 6100DB2C
+P 1300 2700
+F 0 "#PWR04" H 1300 2550 50  0001 C CNN
+F 1 "+BATT_SWITCHED" V 1315 2828 50  0000 L CNN
+F 2 "" H 1300 2700 50  0001 C CNN
+F 3 "" H 1300 2700 50  0001 C CNN
+	1    1300 2700
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector:Conn_01x04_Female J?
+U 1 1 61013B78
+P 1050 2200
+AR Path="/60ECA2F7/61013B78" Ref="J?"  Part="1" 
+AR Path="/61013B78" Ref="J1"  Part="1" 
+F 0 "J1" H 942 1775 50  0000 C CNN
+F 1 "SCREW_TERMINALS_DCDC_MODULE" H 942 1866 50  0000 C CNN
+F 2 "" H 1050 2200 50  0001 C CNN
+F 3 "~" H 1050 2200 50  0001 C CNN
+	1    1050 2200
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	1250 2000 1400 2000
+Wire Wire Line
+	1400 2000 1400 1950
+Wire Wire Line
+	1400 1950 1500 1950
+Wire Wire Line
+	1550 2100 1250 2100
+Wire Wire Line
+	1250 2200 1450 2200
+Wire Wire Line
+	1450 2200 1450 2250
+Wire Wire Line
+	1450 2250 1550 2250
+Wire Wire Line
+	1300 2300 1300 2400
+Wire Wire Line
+	1300 2400 1550 2400
+Wire Wire Line
+	1300 2300 1250 2300
+$Comp
+L power:GND #PWR?
+U 1 1 61013B88
+P 1550 2100
+AR Path="/60ECA2F7/61013B88" Ref="#PWR?"  Part="1" 
+AR Path="/61013B88" Ref="#PWR07"  Part="1" 
+F 0 "#PWR07" H 1550 1850 50  0001 C CNN
+F 1 "GND" V 1555 1972 50  0000 R CNN
+F 2 "" H 1550 2100 50  0001 C CNN
+F 3 "" H 1550 2100 50  0001 C CNN
+	1    1550 2100
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 61013B8E
+P 1550 2400
+AR Path="/60ECA2F7/61013B8E" Ref="#PWR?"  Part="1" 
+AR Path="/61013B8E" Ref="#PWR09"  Part="1" 
+F 0 "#PWR09" H 1550 2150 50  0001 C CNN
+F 1 "GND" V 1555 2272 50  0000 R CNN
+F 2 "" H 1550 2400 50  0001 C CNN
+F 3 "" H 1550 2400 50  0001 C CNN
+	1    1550 2400
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 61013B94
+P 1550 2250
+AR Path="/60ECA2F7/61013B94" Ref="#PWR?"  Part="1" 
+AR Path="/61013B94" Ref="#PWR08"  Part="1" 
+F 0 "#PWR08" H 1550 2100 50  0001 C CNN
+F 1 "+5V" V 1565 2378 50  0000 L CNN
+F 2 "" H 1550 2250 50  0001 C CNN
+F 3 "" H 1550 2250 50  0001 C CNN
+	1    1550 2250
+	0    1    1    0   
+$EndComp
+$Comp
+L +batt_switched:+BATT_SWITCHED #PWR?
+U 1 1 61013B9A
+P 1550 1950
+AR Path="/60ECA2F7/61013B9A" Ref="#PWR?"  Part="1" 
+AR Path="/61013B9A" Ref="#PWR06"  Part="1" 
+F 0 "#PWR06" H 1550 1800 50  0001 C CNN
+F 1 "+BATT_SWITCHED" V 1565 2078 50  0000 L CNN
+F 2 "" H 1550 1950 50  0001 C CNN
+F 3 "" H 1550 1950 50  0001 C CNN
+	1    1550 1950
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	700  3900 700  3600
+Wire Wire Line
+	1500 1950 1500 2050
+Wire Wire Line
+	1500 2050 2100 2050
+Connection ~ 1500 1950
+Wire Wire Line
+	1500 1950 1550 1950
+$Comp
+L power:PWR_FLAG #FLG02
+U 1 1 6109AB15
+P 2100 2050
+F 0 "#FLG02" H 2100 2125 50  0001 C CNN
+F 1 "PWR_FLAG" H 2100 2223 50  0000 C CNN
+F 2 "" H 2100 2050 50  0001 C CNN
+F 3 "~" H 2100 2050 50  0001 C CNN
+	1    2100 2050
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:PWR_FLAG #FLG01
+U 1 1 6109B730
+P 1250 4250
+F 0 "#FLG01" H 1250 4325 50  0001 C CNN
+F 1 "PWR_FLAG" H 1250 4423 50  0000 C CNN
+F 2 "" H 1250 4250 50  0001 C CNN
+F 3 "~" H 1250 4250 50  0001 C CNN
+	1    1250 4250
+	1    0    0    -1  
+$EndComp
+Connection ~ 1250 4250
+$Comp
+L power:GND #PWR?
+U 1 1 610A7150
+P 5700 1750
+AR Path="/60ECA2F7/610A7150" Ref="#PWR?"  Part="1" 
+AR Path="/610A7150" Ref="#PWR010"  Part="1" 
+F 0 "#PWR010" H 5700 1500 50  0001 C CNN
+F 1 "GND" H 5705 1577 50  0000 C CNN
+F 2 "" H 5700 1750 50  0001 C CNN
+F 3 "" H 5700 1750 50  0001 C CNN
+	1    5700 1750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x02_Female J5
+U 1 1 60F64EEF
+P 6250 2500
+F 0 "J5" H 6278 2476 50  0000 L CNN
+F 1 "SAFE_SHUTDOWN_WARNING" H 6278 2385 50  0000 L CNN
+F 2 "Connector_JST:JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical" H 6250 2500 50  0001 C CNN
+F 3 "~" H 6250 2500 50  0001 C CNN
+	1    6250 2500
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 610A84AF
+P 6050 2500
+AR Path="/60ECA2F7/610A84AF" Ref="#PWR?"  Part="1" 
+AR Path="/610A84AF" Ref="#PWR011"  Part="1" 
+F 0 "#PWR011" H 6050 2250 50  0001 C CNN
+F 1 "GND" V 6055 2372 50  0000 R CNN
+F 2 "" H 6050 2500 50  0001 C CNN
+F 3 "" H 6050 2500 50  0001 C CNN
+	1    6050 2500
+	0    1    1    0   
+$EndComp
 $EndSCHEMATC

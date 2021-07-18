@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 2 9
+Sheet 2 8
 Title ""
 Date ""
 Rev ""
@@ -13,99 +13,117 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-Text HLabel 2050 1750 2    50   Output ~ 0
-LED_R
-Text HLabel 2050 2050 2    50   Output ~ 0
+Text HLabel 1500 2100 2    50   Output ~ 0
 LED_G
-Text HLabel 2050 2350 2    50   Output ~ 0
+Text HLabel 1500 2200 2    50   Output ~ 0
 LED_B
-$Comp
-L Device:R_Small R?
-U 1 1 60EB2D44
-P 1800 1750
-F 0 "R?" H 1650 1700 50  0000 C CNN
-F 1 "47R" H 1650 1800 50  0000 C CNN
-F 2 "" H 1800 1750 50  0001 C CNN
-F 3 "~" H 1800 1750 50  0001 C CNN
-	1    1800 1750
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:R_Small R?
-U 1 1 60EB3111
-P 1800 2050
-F 0 "R?" H 1650 2000 50  0000 C CNN
-F 1 "47R" H 1650 2100 50  0000 C CNN
-F 2 "" H 1800 2050 50  0001 C CNN
-F 3 "~" H 1800 2050 50  0001 C CNN
-	1    1800 2050
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:R_Small R?
-U 1 1 60EB346C
-P 1800 2350
-F 0 "R?" H 1650 2300 50  0000 C CNN
-F 1 "47R" H 1650 2400 50  0000 C CNN
-F 2 "" H 1800 2350 50  0001 C CNN
-F 3 "~" H 1800 2350 50  0001 C CNN
-	1    1800 2350
-	0    1    1    0   
-$EndComp
-Text HLabel 2050 2550 2    50   Input ~ 0
-LED_GND
-Wire Wire Line
-	1550 1750 1700 1750
-Wire Wire Line
-	1900 2350 2050 2350
-Wire Wire Line
-	1900 2050 2050 2050
-Wire Wire Line
-	2050 1750 1900 1750
-Text HLabel 1850 1400 2    50   Input ~ 0
-BUTTON_VCC
 Text HLabel 1850 1300 2    50   Output ~ 0
 BUTTON_NC
 Text HLabel 1850 1200 2    50   Output ~ 0
 BUTTON_NO
 $Comp
-L Connector:Conn_01x03_Female J?
+L Connector:Conn_01x03_Female J7
 U 1 1 60ECD1C9
 P 1650 1300
-F 0 "J?" H 1542 975 50  0000 C CNN
+F 0 "J7" H 1542 975 50  0000 C CNN
 F 1 "BTN_CONNECTOR" H 1542 1066 50  0000 C CNN
-F 2 "" H 1650 1300 50  0001 C CNN
-F 3 "~" H 1650 1300 50  0001 C CNN
+F 2 "Connector_JST:JST_XH_B3B-XH-A_1x03_P2.50mm_Vertical" H 1650 1300 50  0001 C CNN
+F 3 "https://www.jst-mfg.com/product/pdf/eng/eXH.pdf" H 1650 1300 50  0001 C CNN
 	1    1650 1300
 	-1   0    0    1   
 $EndComp
+Text Notes 750  2750 0    50   ~ 0
+RGB Leds schakelen op ground
 $Comp
-L Connector:Conn_01x04_Female J?
+L Connector:Conn_01x04_Female J6
 U 1 1 60EC404A
 P 1000 2200
-F 0 "J?" H 892 1775 50  0000 C CNN
-F 1 "RGB_LED_CONNECTOR" H 892 1866 50  0000 C CNN
-F 2 "" H 1000 2200 50  0001 C CNN
-F 3 "~" H 1000 2200 50  0001 C CNN
+F 0 "J6" V 1150 2200 50  0000 C CNN
+F 1 "RGB_LED_CONNECTOR" V 1050 1950 50  0000 C CNN
+F 2 "Connector_JST:JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical" H 1000 2200 50  0001 C CNN
+F 3 "https://www.jst-mfg.com/product/pdf/eng/eXH.pdf" H 1000 2200 50  0001 C CNN
 	1    1000 2200
 	-1   0    0    1   
 $EndComp
+Text HLabel 1500 2000 2    50   Output ~ 0
+LED_R
+$Comp
+L power:+BATT #PWR013
+U 1 1 61051377
+P 1850 1400
+F 0 "#PWR013" H 1850 1250 50  0001 C CNN
+F 1 "+BATT" V 1865 1528 50  0000 L CNN
+F 2 "" H 1850 1400 50  0001 C CNN
+F 3 "" H 1850 1400 50  0001 C CNN
+	1    1850 1400
+	0    1    1    0   
+$EndComp
+$Comp
+L power:+3.3V #PWR012
+U 1 1 61051BE7
+P 1200 2300
+F 0 "#PWR012" H 1200 2150 50  0001 C CNN
+F 1 "+3.3V" V 1215 2428 50  0000 L CNN
+F 2 "" H 1200 2300 50  0001 C CNN
+F 3 "" H 1200 2300 50  0001 C CNN
+	1    1200 2300
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R_Small R1
+U 1 1 61056180
+P 1350 2000
+F 0 "R1" V 1350 2500 50  0000 C CNN
+F 1 "47R" V 1350 2700 50  0000 C CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder" H 1350 2000 50  0001 C CNN
+F 3 "~" H 1350 2000 50  0001 C CNN
+	1    1350 2000
+	0    1    1    0   
+$EndComp
 Wire Wire Line
-	1200 2000 1550 2000
+	1450 2000 1500 2000
 Wire Wire Line
-	1550 1750 1550 2000
+	1250 2000 1200 2000
+$Comp
+L Device:R_Small R2
+U 1 1 61056BB4
+P 1350 2100
+F 0 "R2" V 1350 2600 50  0000 C CNN
+F 1 "47R" V 1350 2800 50  0000 C CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder" H 1350 2100 50  0001 C CNN
+F 3 "~" H 1350 2100 50  0001 C CNN
+	1    1350 2100
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R_Small R3
+U 1 1 61056F2F
+P 1350 2200
+F 0 "R3" V 1350 2700 50  0000 C CNN
+F 1 "47R" V 1350 2900 50  0000 C CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder" H 1350 2200 50  0001 C CNN
+F 3 "~" H 1350 2200 50  0001 C CNN
+	1    1350 2200
+	0    1    1    0   
+$EndComp
 Wire Wire Line
-	1700 2050 1200 2050
+	1450 2100 1500 2100
 Wire Wire Line
-	1200 2050 1200 2100
+	1450 2200 1500 2200
 Wire Wire Line
-	1700 2350 1700 2200
+	1250 2200 1200 2200
 Wire Wire Line
-	1700 2200 1200 2200
-Wire Wire Line
-	2050 2550 1200 2550
-Wire Wire Line
-	1200 2550 1200 2300
-Text Notes 2500 1900 0    50   ~ 0
-Nog niet zeker of de aliexpress RGB momentary switches hun LED's shakelen op GND of op Vin.\nWaarschijnlijk JST XH connector gebruiken\n
+	1250 2100 1200 2100
+$Comp
+L power:PWR_FLAG #FLG03
+U 1 1 610A3A67
+P 1200 2300
+F 0 "#FLG03" H 1200 2375 50  0001 C CNN
+F 1 "PWR_FLAG" H 1200 2473 50  0000 C CNN
+F 2 "" H 1200 2300 50  0001 C CNN
+F 3 "~" H 1200 2300 50  0001 C CNN
+	1    1200 2300
+	-1   0    0    1   
+$EndComp
+Connection ~ 1200 2300
 $EndSCHEMATC

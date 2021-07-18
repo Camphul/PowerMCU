@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 3 9
+Sheet 9 9
 Title ""
 Date ""
 Rev ""
@@ -13,19 +13,11 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-Text HLabel 3950 2100 2    50   Input ~ 0
-GND_IN_BUCK
-Text HLabel 3950 1950 2    50   Input ~ 0
-V_IN_BUCK
-Text HLabel 3950 2250 2    50   Output ~ 0
-5V
-Text HLabel 3950 2400 2    50   Output ~ 0
-5V_GND
 $Comp
-L Connector:Conn_01x04_Female J?
+L Connector:Conn_01x04_Female J9
 U 1 1 60ECABDF
 P 3450 2200
-F 0 "J?" H 3342 1775 50  0000 C CNN
+F 0 "J9" H 3342 1775 50  0000 C CNN
 F 1 "SCREW_TERMINALS_DCDC_MODULE" H 3342 1866 50  0000 C CNN
 F 2 "" H 3450 2200 50  0001 C CNN
 F 3 "~" H 3450 2200 50  0001 C CNN
@@ -52,4 +44,48 @@ Wire Wire Line
 	3700 2400 3950 2400
 Wire Wire Line
 	3700 2300 3650 2300
+$Comp
+L power:GND #PWR?
+U 1 1 6100EFC2
+P 3950 2100
+F 0 "#PWR?" H 3950 1850 50  0001 C CNN
+F 1 "GND" V 3955 1972 50  0000 R CNN
+F 2 "" H 3950 2100 50  0001 C CNN
+F 3 "" H 3950 2100 50  0001 C CNN
+	1    3950 2100
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 6100F616
+P 3950 2400
+F 0 "#PWR?" H 3950 2150 50  0001 C CNN
+F 1 "GND" V 3955 2272 50  0000 R CNN
+F 2 "" H 3950 2400 50  0001 C CNN
+F 3 "" H 3950 2400 50  0001 C CNN
+	1    3950 2400
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 6100FB0B
+P 3950 2250
+F 0 "#PWR?" H 3950 2100 50  0001 C CNN
+F 1 "+5V" V 3965 2378 50  0000 L CNN
+F 2 "" H 3950 2250 50  0001 C CNN
+F 3 "" H 3950 2250 50  0001 C CNN
+	1    3950 2250
+	0    1    1    0   
+$EndComp
+$Comp
+L +batt_switched:+BATT_SWITCHED #PWR?
+U 1 1 6101009C
+P 3950 1950
+F 0 "#PWR?" H 3950 1800 50  0001 C CNN
+F 1 "+BATT_SWITCHED" V 3965 2078 50  0000 L CNN
+F 2 "" H 3950 1950 50  0001 C CNN
+F 3 "" H 3950 1950 50  0001 C CNN
+	1    3950 1950
+	0    1    1    0   
+$EndComp
 $EndSCHEMATC

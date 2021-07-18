@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 4 9
+Sheet 3 8
 Title ""
 Date ""
 Rev ""
@@ -14,13 +14,13 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L Connector:Conn_01x02_Female J?
+L Connector:Conn_01x02_Female J8
 U 1 1 60EE161B
 P 1700 1800
-F 0 "J?" H 1592 1475 50  0000 C CNN
+F 0 "J8" H 1592 1475 50  0000 C CNN
 F 1 "USB_FASTCHARGE_OUTPUTS" H 1592 1566 50  0000 C CNN
-F 2 "" H 1700 1800 50  0001 C CNN
-F 3 "~" H 1700 1800 50  0001 C CNN
+F 2 "Connector_JST:JST_VH_B2P-VH-B_1x02_P3.96mm_Vertical" H 1700 1800 50  0001 C CNN
+F 3 "https://www.jst-mfg.com/product/pdf/eng/eVA.pdf" H 1700 1800 50  0001 C CNN
 	1    1700 1800
 	-1   0    0    1   
 $EndComp
