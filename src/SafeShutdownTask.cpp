@@ -13,7 +13,7 @@ static SemaphoreHandle_t shutdownMutex = xSemaphoreCreateMutex();
 static TaskHandle_t shutdownTaskHandle;
 
 void safeShutdown() {
-    xTaskCreate(taskSafeShutdown, "Safe shutdown task", 4096, NULL, 1, &shutdownTaskHandle);
+    xTaskCreatePinnedToCore(taskSafeShutdown, "Safe shutdown task", 4096, NULL, 1, &shutdownTaskHandle, 1);
 }
 
 void taskSafeShutdown(void *args) {

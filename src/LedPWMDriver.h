@@ -27,6 +27,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include "config-leddriver.h"
+#include "config-i2c.h"
 
 namespace LedDriver {
 

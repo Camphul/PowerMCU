@@ -7,6 +7,7 @@
 #include "SleepManager.h"
 #include "BMSCommunicator.h"
 #include "LedPWMDriver.h"
+#include "StatusDisplay.h"
 
 static TaskHandle_t handle_taskMomentaryButtonRead;
 static TaskHandle_t handle_taskSleepManager;
@@ -14,13 +15,15 @@ static TaskHandle_t handle_taskBMSCommunicator;
 
 //static TaskHandle_t handle_taskStatusLCD;
 void ServicesContainer::registerServices() {
-    xTaskCreate(taskSleepManager, "Deepsleeps MCU to preserve power", 2048, NULL, 1, &handle_taskSleepManager);
-    xTaskCreate(taskBMSCommunicator, "Communicate with BMS", 2014, NULL, 1, &handle_taskBMSCommunicator);
-    xTaskCreate(taskMomentaryButtonRead, "Momentary switch read task", 1024, NULL, 1, &handle_taskMomentaryButtonRead);
+    xTaskCreatePinnedToCore(taskSleepManager, "Deepsleeps MCU to preserve power", 2048, NULL, 1, &handle_taskSleepManager, 1);
+    xTaskCreatePinnedToCore(taskBMSCommunicator, "Communicate with BMS", 2014, NULL, 1, &handle_taskBMSCommunicator, 1);
+    xTaskCreatePinnedToCore(taskMomentaryButtonRead, "Momentary switch read task", 2048, NULL, 1, &handle_taskMomentaryButtonRead, 1);
+    StatusDisplay::begin();
 }
 
 void shutdownServices() {
     LedDriver::turnAllOff();
+    StatusDisplay::shutdown();
     vTaskSuspend(handle_taskSleepManager);
     vTaskSuspend(handle_taskMomentaryButtonRead);
     vTaskSuspend(handle_taskBMSCommunicator);

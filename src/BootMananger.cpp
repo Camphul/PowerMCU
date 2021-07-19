@@ -11,6 +11,7 @@
 #include "driver/rtc_io.h"
 #include "ServicesContainer.h"
 #include "LedPWMDriver.h"
+#include "StatusDisplay.h"
 
 static ServicesContainer servicesContainer;
 
@@ -55,6 +56,9 @@ BootResponse BootMananger::registerIIC() {
     ESP_ERROR_CHECK(i2c_driver_install(I2C_NUM_0, conf.mode,
                                        I2C_MASTER_RX_BUF_DISABLE,
                                        I2C_MASTER_TX_BUF_DISABLE, 0));
+    //OLED DISPLAY BELOW
+    StatusDisplay::setI2CAddress(I2C_ADDRESS_OLED_DISPLAY);
+    //LED DRIVER BELOW
     LedDriver::setI2CAddress(I2C_ADDRESS_LED_PWM_DRIVER);
     LedDriver::setI2CLedDriverFrequency(PWM_DRIVER_FREQ_MAX);
     esp_err_t ret = LedDriver::turnAllOff();

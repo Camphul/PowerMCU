@@ -9,7 +9,7 @@
 #include "soc/rtc_cntl_reg.h"
 #include "SafeShutdownTask.h"
 #include "driver/rtc_io.h"
-
+#include "StatusDisplay.h"
 RTC_DATA_ATTR int bootCount = 0;
 RTC_DATA_ATTR SleepManager sleepManager;
 
@@ -25,7 +25,6 @@ void SleepManager::initTimedSleep() {
     wakeup_reason = esp_sleep_get_wakeup_cause();
     if (wakeup_reason == ESP_SLEEP_WAKEUP_EXT0) {
         Serial.println("EXT0 wakeup  reason triggered");
-        delay(400);
         safeShutdown();
         delay(SAFESHUTDOWN_DELAY * mS_TO_S_FACTOR + 2000);
     }
@@ -35,6 +34,8 @@ void SleepManager::initTimedSleep() {
 #ifdef TIME_PREDELAY_SLEEP
     delay((TIME_PREDELAY_SLEEP*mS_TO_S_FACTOR) / portTICK_PERIOD_MS);
 #endif
+    StatusDisplay::clear();
+    StatusDisplay::turnOff();
     esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
     Serial.println("Setup ESP32 to sleep for every " + String(TIME_TO_SLEEP) +
                    " Seconds");
