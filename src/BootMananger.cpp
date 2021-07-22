@@ -23,23 +23,33 @@ BootMananger::BootMananger() {
  * @return
  */
 BootResponse BootMananger::coreBootInit() {
-    gpio_set_direction(SOFTLATCH_OUTPUT_PIN, GPIO_MODE_OUTPUT);
-    gpio_set_level(SOFTLATCH_OUTPUT_PIN, HIGH);
-    gpio_hold_en(SOFTLATCH_OUTPUT_PIN);
-    gpio_set_direction(SOFTLATCH_BTN_PIN, GPIO_MODE_INPUT);
-    //rtc_gpio_set_direction(SOFTLATCH_BTN_PIN, RTC_GPIO_MODE_INPUT_ONLY);
-    //rtc_gpio_pulldown_en(SOFTLATCH_BTN_PIN);
-    gpio_set_pull_mode(SOFTLATCH_BTN_PIN, GPIO_PULLDOWN_ONLY);
-    esp_sleep_enable_ext0_wakeup(SOFTLATCH_BTN_PIN, HIGH);
-    gpio_install_isr_service(ESP_INTR_FLAG_DEFAULT);
+    try {
+        gpio_set_direction(SOFTLATCH_OUTPUT_PIN, GPIO_MODE_OUTPUT);
+        gpio_set_level(SOFTLATCH_OUTPUT_PIN, HIGH);
+        gpio_hold_en(SOFTLATCH_OUTPUT_PIN);
+        gpio_set_direction(SOFTLATCH_BTN_PIN, GPIO_MODE_INPUT);
+        //rtc_gpio_set_direction(SOFTLATCH_BTN_PIN, RTC_GPIO_MODE_INPUT_ONLY);
+        //rtc_gpio_pulldown_en(SOFTLATCH_BTN_PIN);
+        gpio_set_pull_mode(SOFTLATCH_BTN_PIN, GPIO_PULLDOWN_ONLY);
+        esp_sleep_enable_ext0_wakeup(SOFTLATCH_BTN_PIN, HIGH);
+        gpio_install_isr_service(ESP_INTR_FLAG_DEFAULT);
+    } catch (std::exception &e ) {
+        ESP_LOGE(e.what());
+        return BOOT_SECTION_FAILED;
+    }
     return BOOT_SECTION_OK;
 }
 
 BootResponse BootMananger::registerBasicIO() {
-    gpio_set_direction(SAFESHUTDOWN_WARN_PIN, GPIO_MODE_OUTPUT);
-    gpio_set_pull_mode(SAFESHUTDOWN_WARN_PIN, GPIO_PULLDOWN_ONLY);
-    gpio_set_level(SAFESHUTDOWN_WARN_PIN, HIGH);
-    gpio_hold_en(SAFESHUTDOWN_WARN_PIN);
+    try {
+        gpio_set_direction(SAFESHUTDOWN_WARN_PIN, GPIO_MODE_OUTPUT);
+        gpio_set_pull_mode(SAFESHUTDOWN_WARN_PIN, GPIO_PULLDOWN_ONLY);
+        gpio_set_level(SAFESHUTDOWN_WARN_PIN, HIGH);
+        gpio_hold_en(SAFESHUTDOWN_WARN_PIN);
+    } catch (std::exception &e ) {
+        ESP_LOGE(e.what());
+        return BOOT_SECTION_FAILED;
+    }
     return BOOT_SECTION_OK;
 }
 
@@ -66,6 +76,7 @@ BootResponse BootMananger::registerIIC() {
 #if IS_DEBUG
         Serial.printf("Failed boot due to led driver not turning off all. Error: %u", ret);
 #endif
+        ESP_LOGE("Failed to turn all led's off from led driver.");
         return BOOT_SECTION_FAILED;
     }
     ret = LedDriver::fadePinUpDown(LEDRING_R_PIN);
@@ -73,15 +84,21 @@ BootResponse BootMananger::registerIIC() {
 #if IS_DEBUG
         Serial.printf("Welcomes fade failed. Error: %u", ret);
 #endif
+        ESP_LOGE("Failed to fade ledring color r");
         return BOOT_SECTION_FAILED;
     }
     return BOOT_SECTION_OK;
 }
 
 BootResponse BootMananger::initTasksAndServices() {
-    Serial.begin(CONFIG_CONSOLE_UART_BAUDRATE);
-    Serial2.begin(HWSERIAL_2_BAUDRATE, HWSERIAL_2_CONF, RXD2, TXD2);
-    servicesContainer.registerServices();
+    try {
+        Serial.begin(CONFIG_CONSOLE_UART_BAUDRATE);
+        Serial2.begin(HWSERIAL_2_BAUDRATE, HWSERIAL_2_CONF, RXD2, TXD2);
+        servicesContainer.registerServices();
+    } catch (std::exception &e) {
+        ESP_LOGE(e.what());
+        return BOOT_SECTION_FAILED;
+    }
     return BOOT_SECTION_OK;
 }
 
