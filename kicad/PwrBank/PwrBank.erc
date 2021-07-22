@@ -1,0 +1,37 @@
+ERC report (Sat 17 Jul 2021 11:40:21 PM CEST, Encoding UTF8 )
+
+***** Sheet /
+ErrType(7): A pin with a “no connection” flag is connected
+    @(3.100 in, 2.500 in): More than 1 pin connected to an UnConnect symbol.
+ErrType(3): Pin connected to other pins, but not driven by any pin
+    @(1.050 in, 5.750 in): Pin 1 (Power input) of component #PWR0102 is not driven (Net 15).
+
+***** Sheet /MomentaryRGBSwitch/
+ErrType(2): Pin not connected (use a “no connection” flag to suppress this error)
+    @(1.900 in, 1.750 in): Pin 1 (Passive) of component R1 is unconnected.
+ErrType(2): Pin not connected (use a “no connection” flag to suppress this error)
+    @(1.900 in, 2.050 in): Pin 1 (Passive) of component R2 is unconnected.
+ErrType(2): Pin not connected (use a “no connection” flag to suppress this error)
+    @(1.900 in, 2.350 in): Pin 1 (Passive) of component R3 is unconnected.
+
+***** Sheet /B10-1224-05_MODULE/
+
+***** Sheet /USB_FASTCHARGE_MODULE/
+
+***** Sheet /SmartSoftLatch/
+
+***** Sheet /CHARGER_STEP_UP/
+
+***** Sheet /ESP32_AND_SUCH/
+ErrType(3): Pin connected to other pins, but not driven by any pin
+    @(6.850 in, 2.000 in): Pin 20 (Power input) of component U2 is not driven (Net 11).
+ErrType(3): Pin connected to other pins, but not driven by any pin
+    @(5.250 in, 3.800 in): Pin 19 (Power input) of component U2 is not driven (Net 14).
+ErrType(3): Pin connected to other pins, but not driven by any pin
+    @(4.950 in, 3.300 in): Pin 1 (Passive) of component R15 is not driven (Net 36).
+
+***** Sheet /ESP32_AND_SUCH/logic_shifters_mcu_RX/
+
+***** Sheet /ESP32_AND_SUCH/logic_shifter_mcu_TX/
+
+ ** ERC messages: 8  Errors 0  Warnings 8

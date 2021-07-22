@@ -1,0 +1,128 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 9 9
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L PCA9632DP1:PCA9632DP1 U3
+U 1 1 60FA7C2A
+P 4400 3250
+F 0 "U3" H 4375 3415 50  0000 C CNN
+F 1 "PCA9632DP1" H 4375 3324 50  0000 C CNN
+F 2 "Package_SO:TSSOP-8_3x3mm_P0.65mm" H 4400 3350 50  0001 C CNN
+F 3 "https://nl.mouser.com/datasheet/2/302/PCA9632-1127666.pdf" H 4400 3250 50  0001 C CNN
+	1    4400 3250
+	1    0    0    -1  
+$EndComp
+Text HLabel 3900 3300 0    50   Output ~ 0
+LEDRING_R
+Text HLabel 3900 3400 0    50   Output ~ 0
+LEDRING_G
+Text HLabel 3900 3500 0    50   Output ~ 0
+LEDRING_B
+$Comp
+L power:GND #PWR034
+U 1 1 60FA879A
+P 4800 3300
+F 0 "#PWR034" H 4800 3050 50  0001 C CNN
+F 1 "GND" V 4805 3172 50  0000 R CNN
+F 2 "" H 4800 3300 50  0001 C CNN
+F 3 "" H 4800 3300 50  0001 C CNN
+	1    4800 3300
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:+3.3V #PWR035
+U 1 1 60FA900F
+P 5050 3600
+F 0 "#PWR035" H 5050 3450 50  0001 C CNN
+F 1 "+3.3V" V 5065 3728 50  0000 L CNN
+F 2 "" H 5050 3600 50  0001 C CNN
+F 3 "" H 5050 3600 50  0001 C CNN
+	1    5050 3600
+	0    1    1    0   
+$EndComp
+Text HLabel 6150 3400 2    50   BiDi ~ 0
+SDA
+Wire Wire Line
+	3900 3500 4100 3500
+Wire Wire Line
+	3900 3400 4100 3400
+Wire Wire Line
+	3900 3300 4100 3300
+Text HLabel 6150 3500 2    50   Input ~ 0
+SCL
+Wire Wire Line
+	4650 3600 5050 3600
+$Comp
+L Device:R_Small R18
+U 1 1 60FAADB1
+P 6050 3800
+F 0 "R18" H 6109 3846 50  0000 L CNN
+F 1 "10k" H 6109 3755 50  0000 L CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder" H 6050 3800 50  0001 C CNN
+F 3 "~" H 6050 3800 50  0001 C CNN
+	1    6050 3800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4650 3400 6050 3400
+Wire Wire Line
+	4650 3500 5650 3500
+$Comp
+L Device:R_Small R17
+U 1 1 60FAD892
+P 5650 3800
+F 0 "R17" H 5709 3846 50  0000 L CNN
+F 1 "10k" H 5709 3755 50  0000 L CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder" H 5650 3800 50  0001 C CNN
+F 3 "~" H 5650 3800 50  0001 C CNN
+	1    5650 3800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6050 3400 6050 3700
+Connection ~ 6050 3400
+Wire Wire Line
+	6050 3400 6150 3400
+Wire Wire Line
+	5650 3500 5650 3700
+Connection ~ 5650 3500
+Wire Wire Line
+	5650 3500 6150 3500
+$Comp
+L power:+3.3V #PWR036
+U 1 1 60FAE153
+P 5650 3900
+F 0 "#PWR036" H 5650 3750 50  0001 C CNN
+F 1 "+3.3V" H 5665 4073 50  0000 C CNN
+F 2 "" H 5650 3900 50  0001 C CNN
+F 3 "" H 5650 3900 50  0001 C CNN
+	1    5650 3900
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:+3.3V #PWR037
+U 1 1 60FAE9C5
+P 6050 3900
+F 0 "#PWR037" H 6050 3750 50  0001 C CNN
+F 1 "+3.3V" H 6065 4073 50  0000 C CNN
+F 2 "" H 6050 3900 50  0001 C CNN
+F 3 "" H 6050 3900 50  0001 C CNN
+	1    6050 3900
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	4800 3300 4650 3300
+NoConn ~ 4100 3600
+$EndSCHEMATC
