@@ -33,7 +33,7 @@ static const BaseType_t app_cpu = 1;
 
 #define uS_TO_S_FACTOR 1000000 /* Conversion factor for micro seconds to seconds */
 #define mS_TO_S_FACTOR 1000 /* Conversion factor for milli seconds to seconds */
-#define SLEEP_TASK_ENABLED true
+#define SLEEP_TASK_ENABLED false
 #define TIME_TO_SLEEP 60 /* Time ESP32 will go to sleep (in seconds) */
 #define TIME_PREDELAY_SLEEP 30 /* ESP32 will delay this amount before initializing sleeping sequence(in seconds)*/
 
