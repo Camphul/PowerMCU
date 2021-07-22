@@ -10,6 +10,7 @@
 #include "config.h"
 #include "esp32-hal-log.h"
 #include "oled_screens/BatteryStatusScreen.h"
+
 using namespace StatusDisplay;
 static TaskHandle_t statusDisplayTaskHandle;
 static displayscreen_t DEFAULT_SCREEN;
@@ -31,7 +32,8 @@ void StatusDisplay::begin() {
     disp.setI2CAddress(I2C_ADDRESS_OLED_DISPLAY);
     DEFAULT_SCREEN = BatteryPercentageScreen::getBatteryPercentageScreen();
     setDisplayScreen(DEFAULT_SCREEN);
-    xTaskCreatePinnedToCore(taskRenderStatusDisplay, "Rendering of i2c based display", 8192, NULL, 1, &statusDisplayTaskHandle, 1);
+    xTaskCreatePinnedToCore(taskRenderStatusDisplay, "Rendering of i2c based display", 8192, NULL, 1,
+                            &statusDisplayTaskHandle, 1);
 }
 
 /**
@@ -42,11 +44,12 @@ void StatusDisplay::shutdown() {
     turnOff();
     vTaskSuspend(statusDisplayTaskHandle);
 }
+
 /**
  * Draws on the display
  */
 void StatusDisplay::draw() {
-    if(currentScreen.screenName == NULL || currentScreen.render == NULL) {
+    if (currentScreen.screenName == NULL || currentScreen.render == NULL) {
         currentScreen = DEFAULT_SCREEN;
 #if IS_DEBUG
         ESP_LOGV("Set to default screen since current screen was null");
@@ -72,6 +75,7 @@ displayscreen_t StatusDisplay::getDisplayScreen() {
 void StatusDisplay::resetDisplayScreen() {
     setDisplayScreen(DEFAULT_SCREEN);
 }
+
 /**
  * Clear display framebuffer and render
  */
@@ -104,7 +108,7 @@ void StatusDisplay::turnOn() {
  */
 void StatusDisplay::turnOnFor(uint16_t duration) {
     turnOn();
-    vTaskDelay(duration/portTICK_PERIOD_MS);
+    vTaskDelay(duration / portTICK_PERIOD_MS);
     turnOff();
 }
 
@@ -118,11 +122,11 @@ static void StatusDisplay::taskRenderStatusDisplay(void *args) {
     disp.setI2CAddress(displayI2CAddresss);
     disp.begin();
     disp.clearDisplay();
-    vTaskDelay(100/portTICK_PERIOD_MS);
-    char* previousScreenName = currentScreen.screenName;
-    while(RUNNING) {
+    vTaskDelay(100 / portTICK_PERIOD_MS);
+    char *previousScreenName = currentScreen.screenName;
+    while (RUNNING) {
         //Redraw loop
-        if(previousScreenName != currentScreen.screenName) {
+        if (previousScreenName != currentScreen.screenName) {
 #if IS_DEBUG
             Serial.printf("Switching screen from %s to %s\r\n",previousScreenName, currentScreen.screenName);
 #endif

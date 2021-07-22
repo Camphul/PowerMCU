@@ -17,7 +17,8 @@ static TaskHandle_t handle_taskBMSCommunicator;
 void ServicesContainer::registerServices() {
     //xTaskCreatePinnedToCore(taskSleepManager, "Deepsleeps MCU to preserve power", 2048, NULL, 1, &handle_taskSleepManager, 1);
     xTaskCreatePinnedToCore(taskBMSCommunicator, "Communicate with BMS", 2014, NULL, 1, &handle_taskBMSCommunicator, 1);
-    xTaskCreatePinnedToCore(taskMomentaryButtonRead, "Momentary switch read task", 2048, NULL, 1, &handle_taskMomentaryButtonRead, 1);
+    xTaskCreatePinnedToCore(taskMomentaryButtonRead, "Momentary switch read task", 2048, NULL, 1,
+                            &handle_taskMomentaryButtonRead, 1);
     StatusDisplay::begin();
 }
 

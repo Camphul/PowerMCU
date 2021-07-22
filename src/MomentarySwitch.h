@@ -9,6 +9,7 @@
 #include "Arduino.h"
 
 void IRAM_ATTR handleMomentaryButtonInterrupt();
+
 void handleOnPressed();
 
 [[noreturn]] void taskMomentaryButtonRead(void *parameter);

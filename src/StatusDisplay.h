@@ -4,6 +4,7 @@
 
 #ifndef POWERMCU_STATUSDISPLAY_H
 #define POWERMCU_STATUSDISPLAY_H
+
 #include <cstdint>
 #include "config-i2c.h"
 #include "config-display.h"
@@ -17,16 +18,27 @@
 
 namespace StatusDisplay {
     static void taskRenderStatusDisplay(void *args);
+
     extern void setDisplayScreen(displayscreen_t screen);
+
     extern void resetDisplayScreen(void);
+
     extern displayscreen_t getDisplayScreen(void);
+
     extern void setI2CAddress(uint8_t addr);
+
     extern void turnOff(void);
+
     extern void turnOn(void);
+
     extern void turnOnFor(uint16_t duration);
+
     extern void clear(void);
+
     extern void draw(void);
+
     extern void begin(void);
+
     extern void shutdown(void);
 
 }

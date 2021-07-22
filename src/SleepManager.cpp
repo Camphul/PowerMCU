@@ -9,6 +9,7 @@
 #include "SafeShutdownTask.h"
 #include "driver/rtc_io.h"
 #include "StatusDisplay.h"
+
 RTC_DATA_ATTR int bootCount = 0;
 RTC_DATA_ATTR SleepManager sleepManager;
 
