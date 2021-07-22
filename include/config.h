@@ -41,6 +41,7 @@ static const BaseType_t app_cpu = 1;
 #define HWSERIAL_2_CONF SERIAL_8N1
 #define HWSERIAL_2_MAXBUFFER_READ 128
 
-#define SAFESHUTDOWN_DELAY 30 // IN SECONDS
+#define SAFESHUTDOWN_DELAY 15 // IN SECONDS
+#define RUNNING 1
 
 #endif //POWERMCU_CONFIG_H

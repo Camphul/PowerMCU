@@ -16,7 +16,7 @@ public:
     void initTimedSleep();
 };
 
-void taskSleepManager(void *args);
+extern void taskSleepManager(void *args);
 
 
 #endif //POWERMCU_SLEEPMANAGER_H

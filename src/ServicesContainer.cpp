@@ -4,7 +4,7 @@
 
 #include "ServicesContainer.h"
 #include "MomentarySwitch.h"
-#include "SleepManager.h"
+//#include "SleepManager.h"
 #include "BMSCommunicator.h"
 #include "LedPWMDriver.h"
 #include "StatusDisplay.h"

@@ -7,14 +7,14 @@
 #include "../../include/config.h"
 #include <cstdint>
 using namespace ShutdownScreen;
-uint8_t timeLeft = SAFESHUTDOWN_DELAY;
+volatile uint8_t timeLeft = SAFESHUTDOWN_DELAY;
 void ShutdownScreen::drawShutdownScreen(Display display) {
     display.setFontMode(1);  // Transparent
     display.setDrawColor(2);
     display.setFontDirection(0);
     display.setFont(DISPLAY_TEXT_FONT_TOPBAR);
     char *timeLeftTxt;
-    asprintf(&timeLeftTxt, "%u seconds left", timeLeft);
+    asprintf(&timeLeftTxt, "%02u seconds left", timeLeft);
     display.drawStr(0, DISPLAY_TEXT_TOPBAR_BORDER_OFFSET_Y, timeLeftTxt);
     display.drawLine(0,DISPLAY_LINE_Y,DISPLAY_MAX_X, DISPLAY_LINE_Y);
     display.setFont(DISPLAY_TEXT_FONT_LARGE);
@@ -23,9 +23,10 @@ void ShutdownScreen::drawShutdownScreen(Display display) {
 void ShutdownScreen::setSecondsLeft(uint8_t secondsLeft) {
     timeLeft = secondsLeft;
 }
-displayscreen_t ShutdownScreen::getShutdownScreen() {
-    return {
-        "ShutdownScreen",
+static const displayscreen_t SCREEN_STRUCT = {
+        const_cast<char*>("ShutdownScreen"),
         drawShutdownScreen,
-    };
+};
+displayscreen_t ShutdownScreen::getShutdownScreen() {
+    return SCREEN_STRUCT;
 }

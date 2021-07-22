@@ -41,8 +41,10 @@ void taskSafeShutdown(void *args) {
     gpio_set_level(SOFTLATCH_OUTPUT_PIN, LOW);
     gpio_hold_dis(SOFTLATCH_OUTPUT_PIN);
     //gpio_set_direction(SOFTLATCH_BTN_PIN, GPIO_MODE_DISABLE);
+#if IS_DEBUG
     while (1) {
         delay(1000);//just block as a demo, requiring a complete board reset.
     }
+#endif
     xSemaphoreGive(shutdownMutex);
 }

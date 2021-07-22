@@ -15,21 +15,11 @@ static TaskHandle_t statusDisplayTaskHandle;
 static displayscreen_t DEFAULT_SCREEN;
 //Chip's i2c address
 uint8_t displayI2CAddresss = I2C_ADDRESS_OLED_DISPLAY;
-bat_status_t batStatus = DISCHARGING;
 
 displayscreen currentScreen;
-uint8_t batteryPercentage = 69;
-#if IS_DEBUG
-uint8_t dbgPercentage = 69;
-#endif
 //Actual display driver.
 Display disp(U8G2_R0, /*clock=*/I2C_SCL1,  /*data=*/I2C_SDA1,/* reset=*/ U8X8_PIN_NONE);
-void StatusDisplay::setBatteryStatus(bat_status_t status) {
-    batStatus = status;
-}
-void StatusDisplay::setBatteryPercentage(uint8_t percentage) {
-    batteryPercentage = percentage;
-}
+
 void StatusDisplay::setI2CAddress(uint8_t addr) {
     displayI2CAddresss = addr;
 }
@@ -51,21 +41,6 @@ void StatusDisplay::shutdown() {
     clear();
     turnOff();
     vTaskSuspend(statusDisplayTaskHandle);
-}
-/**
- * Get battery status
- * @return battery status
- */
-bat_status_t StatusDisplay::getBatteryStatus() {
-    return batStatus;
-}
-
-/**
- * Battery percentage info
- * @return battery percentage
- */
-uint8_t StatusDisplay::getBatteryPercentage() {
-    return batteryPercentage;
 }
 /**
  * Draws on the display
@@ -137,7 +112,7 @@ void StatusDisplay::turnOnFor(uint16_t duration) {
  * Initializes i2c display
  * @param [in] args argumemts given to task
  */
-[[noreturn]] static void StatusDisplay::taskRenderStatusDisplay(void *args) {
+static void StatusDisplay::taskRenderStatusDisplay(void *args) {
     setI2CAddress(I2C_ADDRESS_OLED_DISPLAY);
     setDisplayScreen(BatteryPercentageScreen::getBatteryPercentageScreen());
     disp.setI2CAddress(displayI2CAddresss);
@@ -145,19 +120,12 @@ void StatusDisplay::turnOnFor(uint16_t duration) {
     disp.clearDisplay();
     vTaskDelay(100/portTICK_PERIOD_MS);
     char* previousScreenName = currentScreen.screenName;
-    while(1) {
-#if IS_DEBUG
-        if(batteryPercentage >= 100) {
-            dbgPercentage = 0;
-            setBatteryPercentage(0);
-        }
-        ++dbgPercentage;
-        setBatteryPercentage(dbgPercentage);
-        bat_status_t stat = dbgPercentage % 3 == 0 ? CHARGING : DISCHARGING;
-        setBatteryStatus(stat);
-#endif
+    while(RUNNING) {
         //Redraw loop
         if(previousScreenName != currentScreen.screenName) {
+#if IS_DEBUG
+            Serial.printf("Switching screen from %s to %s\r\n",previousScreenName, currentScreen.screenName);
+#endif
             clear();
         }
         disp.clearBuffer();

@@ -6,7 +6,6 @@
 #include "Arduino.h"
 #include "config.h"
 #include "pins.h"
-#include "soc/rtc_cntl_reg.h"
 #include "SafeShutdownTask.h"
 #include "driver/rtc_io.h"
 #include "StatusDisplay.h"
