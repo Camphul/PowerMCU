@@ -8,6 +8,8 @@
 #include <Arduino.h>
 #include "ServicesContainer.h"
 #include "LedPWMDriver.h"
+#include "StatusDisplay.h"
+#include "oled_screens/ShutdownScreen.h"
 
 static SemaphoreHandle_t shutdownMutex = xSemaphoreCreateMutex();
 static TaskHandle_t shutdownTaskHandle;
@@ -19,16 +21,19 @@ void safeShutdown() {
 void taskSafeShutdown(void *args) {
     xSemaphoreTake(shutdownMutex, portMAX_DELAY);
     Serial.println("Shutting down");
+    StatusDisplay::setDisplayScreen(ShutdownScreen::getShutdownScreen());
     shutdownServices();
     gpio_hold_en(SOFTLATCH_OUTPUT_PIN);
     gpio_set_level(SOFTLATCH_OUTPUT_PIN, HIGH);
     Serial.println("Going for a safe shutdown!");
     gpio_set_level(SAFESHUTDOWN_WARN_PIN, LOW);
     gpio_hold_dis(SAFESHUTDOWN_WARN_PIN);
-    for (int i = 0; i < SAFESHUTDOWN_DELAY; i++) {
+    for (uint8_t i = 0; i < SAFESHUTDOWN_DELAY; i++) {
+        ShutdownScreen::setSecondsLeft(SAFESHUTDOWN_DELAY - i);
         LedDriver::fadePinUpDown(LEDRING_R_PIN, 2);
         delay(mS_TO_S_FACTOR);
     }
+    StatusDisplay::shutdown();
     LedDriver::setLevel(LEDRING_R_PIN, CHANNEL_LOW);
     Serial.println("System has been shutdown");
     Serial.flush();
