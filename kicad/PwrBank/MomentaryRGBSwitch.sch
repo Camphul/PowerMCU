@@ -19,13 +19,13 @@ Text HLabel 1300 2200 2    50   Output ~ 0
 LED_B
 Text HLabel 1150 1200 2    50   Output ~ 0
 BUTTON_NC
-Text HLabel 1150 1100 2    50   Output ~ 0
+Text HLabel 1600 1100 2    50   Output ~ 0
 BUTTON_NO
 $Comp
-L Connector:Conn_01x03_Female J7
+L Connector:Conn_01x03_Female J6
 U 1 1 60ECD1C9
 P 950 1200
-F 0 "J7" H 842 875 50  0000 C CNN
+F 0 "J6" H 842 875 50  0000 C CNN
 F 1 "BTN_CONNECTOR" H 842 966 50  0000 C CNN
 F 2 "Connector_JST:JST_XH_B3B-XH-A_1x03_P2.50mm_Vertical" H 950 1200 50  0001 C CNN
 F 3 "https://www.jst-mfg.com/product/pdf/eng/eXH.pdf" H 950 1200 50  0001 C CNN
@@ -35,14 +35,14 @@ $EndComp
 Text Notes 750  2750 0    50   ~ 0
 RGB Leds schakelen op ground
 $Comp
-L Connector:Conn_01x04_Female J6
+L Connector:Conn_01x05_Female J7
 U 1 1 60EC404A
-P 1000 2200
-F 0 "J6" V 1150 2200 50  0000 C CNN
-F 1 "RGB_LED_CONNECTOR" V 1050 1950 50  0000 C CNN
-F 2 "Connector_JST:JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical" H 1000 2200 50  0001 C CNN
-F 3 "https://www.jst-mfg.com/product/pdf/eng/eXH.pdf" H 1000 2200 50  0001 C CNN
-	1    1000 2200
+P 1000 2100
+F 0 "J7" V 1150 2100 50  0000 C CNN
+F 1 "RGB_LED_CONNECTOR" V 1050 1850 50  0000 C CNN
+F 2 "Connector_JST:JST_XH_B4B-XH-A_1x05_P2.50mm_Vertical" H 1000 2100 50  0001 C CNN
+F 3 "https://www.jst-mfg.com/product/pdf/eng/eXH.pdf" H 1000 2100 50  0001 C CNN
+	1    1000 2100
 	-1   0    0    1   
 $EndComp
 Text HLabel 1300 2000 2    50   Output ~ 0
@@ -59,10 +59,10 @@ F 3 "" H 1150 1300 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L power:+3.3V #PWR014
+L power:+3.3V #PWR016
 U 1 1 61051BE7
 P 1200 2300
-F 0 "#PWR014" H 1200 2150 50  0001 C CNN
+F 0 "#PWR016" H 1200 2150 50  0001 C CNN
 F 1 "+3.3V" V 1215 2428 50  0000 L CNN
 F 2 "" H 1200 2300 50  0001 C CNN
 F 3 "" H 1200 2300 50  0001 C CNN
@@ -87,4 +87,39 @@ Wire Wire Line
 	1200 2100 1300 2100
 Wire Wire Line
 	1200 2200 1300 2200
+Wire Wire Line
+	1600 1100 1500 1100
+$Comp
+L power:GND #PWR017
+U 1 1 60FCF850
+P 1500 750
+F 0 "#PWR017" H 1500 500 50  0001 C CNN
+F 1 "GND" H 1505 577 50  0000 C CNN
+F 2 "" H 1500 750 50  0001 C CNN
+F 3 "" H 1500 750 50  0001 C CNN
+	1    1500 750 
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R_Small R1
+U 1 1 60FD03CB
+P 1500 950
+F 0 "R1" H 1559 996 50  0000 L CNN
+F 1 "10k" H 1559 905 50  0000 L CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder" H 1500 950 50  0001 C CNN
+F 3 "~" H 1500 950 50  0001 C CNN
+	1    1500 950 
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1500 750  1500 850 
+Wire Wire Line
+	1500 1050 1500 1100
+Connection ~ 1500 1100
+Wire Wire Line
+	1500 1100 1150 1100
+Text HLabel 1300 1900 2    50   Output ~ 0
+CAPACITIVE_SENSE
+Wire Wire Line
+	1300 1900 1200 1900
 $EndSCHEMATC
