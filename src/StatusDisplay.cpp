@@ -10,10 +10,16 @@
 #include "config.h"
 #include "esp32-hal-log.h"
 #include "oled_screens/BatteryStatusScreen.h"
+#if IS_DEBUG
+#include "Arduino.h"
+#endif
 
 using namespace StatusDisplay;
+static TimerHandle_t onOffTimer;
 static TaskHandle_t statusDisplayTaskHandle;
+static QueueHandle_t queuePtr = xQueueCreate(10, sizeof(uint8_t));
 static displayscreen_t DEFAULT_SCREEN;
+int timerId = 1;
 //Chip's i2c address
 uint8_t displayI2CAddresss = I2C_ADDRESS_OLED_DISPLAY;
 
@@ -40,6 +46,12 @@ void StatusDisplay::begin() {
  * Stops rendering task and turns off the display
  */
 void StatusDisplay::shutdown() {
+    if(onOffTimer != NULL) {
+        xTimerStop(onOffTimer, 0);
+        xTimerDelete(onOffTimer, 1);
+        vTaskDelay(10/portTICK_PERIOD_MS);
+        onOffTimer = NULL;
+    }
     clear();
     turnOff();
     vTaskSuspend(statusDisplayTaskHandle);
@@ -97,8 +109,15 @@ void StatusDisplay::turnOff() {
  * Turns on display
  */
 void StatusDisplay::turnOn() {
-    clear();
     disp.setPowerSave(0);
+}
+
+void StatusDisplay::turnOffTimerHandle(TimerHandle_t timer) {
+    turnOff();
+    xTimerStop(timer, 0);
+    xTimerDelete(timer, 1);
+    vTaskDelay(10/portTICK_PERIOD_MS);
+    onOffTimer = NULL;
 }
 
 /**
@@ -108,15 +127,28 @@ void StatusDisplay::turnOn() {
  */
 void StatusDisplay::turnOnFor(uint16_t duration) {
     turnOn();
-    vTaskDelay(duration / portTICK_PERIOD_MS);
-    turnOff();
+    if(onOffTimer != NULL) {
+        xTimerStop(onOffTimer, 0);
+        xTimerDelete(onOffTimer, 1);
+        vTaskDelay(10/portTICK_PERIOD_MS);
+        onOffTimer = NULL;
+    }
+    onOffTimer = xTimerCreate("DisplayOnOffTimer", pdMS_TO_TICKS(duration), pdTRUE, &timerId, &turnOffTimerHandle);
+    xTimerStart(onOffTimer, 0);
+}
+
+void StatusDisplay::turnOnForDurationFromISR() {
+    if(queuePtr != NULL) {
+        uint8_t action = ACTION_OLED_ON;
+        xQueueSendFromISR(queuePtr, &action, NULL);
+    }
 }
 
 /**
  * Initializes i2c display
  * @param [in] args argumemts given to task
  */
-static void StatusDisplay::taskRenderStatusDisplay(void *args) {
+[[noreturn]] static void StatusDisplay::taskRenderStatusDisplay(void *args) {
     setI2CAddress(I2C_ADDRESS_OLED_DISPLAY);
     setDisplayScreen(BatteryPercentageScreen::getBatteryPercentageScreen());
     disp.setI2CAddress(displayI2CAddresss);
@@ -131,11 +163,29 @@ static void StatusDisplay::taskRenderStatusDisplay(void *args) {
             Serial.printf("Switching screen from %s to %s\r\n",previousScreenName, currentScreen.screenName);
 #endif
             clear();
+            //turn on when screen changes
+            turnOnFor(DISPLAY_TURN_ON_TIME * mS_TO_S_FACTOR);
         }
         disp.clearBuffer();
         draw();
         previousScreenName = currentScreen.screenName;
         disp.sendBuffer();
+        if(queuePtr != NULL && uxQueueMessagesWaiting(queuePtr) > 0) {
+            uint8_t message;
+            xQueueReceive(queuePtr, &message, 1);
+            if(message == NULL || message <= 0) {
+                continue;
+            } else {
+                switch (message) {
+                    case ACTION_OLED_ON:
+                        turnOnFor(DISPLAY_TURN_ON_TIME * mS_TO_S_FACTOR);
+                        break;
+                    default:
+                        Serial.printf("Unknown queuePtr action: %u\r\n", message);
+                        break;
+                }
+            }
+        }
         vTaskDelay(DISPLAY_REFRESH_RATE_DELAY_MS / portTICK_PERIOD_MS);
     }
 }

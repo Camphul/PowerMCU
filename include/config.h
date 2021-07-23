@@ -31,8 +31,8 @@ static const BaseType_t app_cpu = 1;
  */
 #define ESP_INTR_FLAG_DEFAULT 0
 
-#define uS_TO_S_FACTOR 1000000 /* Conversion factor for micro seconds to seconds */
-#define mS_TO_S_FACTOR 1000 /* Conversion factor for milli seconds to seconds */
+#define uS_TO_S_FACTOR 1000000 // Conversion factor for micro seconds to seconds
+#define mS_TO_S_FACTOR 1000 // Conversion factor for milli seconds to seconds
 #define SLEEP_TASK_ENABLED false
 #define TIME_TO_SLEEP 60 /* Time ESP32 will go to sleep (in seconds) */
 #define TIME_PREDELAY_SLEEP 30 /* ESP32 will delay this amount before initializing sleeping sequence(in seconds)*/
@@ -43,5 +43,10 @@ static const BaseType_t app_cpu = 1;
 
 #define SAFESHUTDOWN_DELAY 15 // IN SECONDS
 #define RUNNING 1
+
+#define OLED_TOUCH_CAPACITIVE_THRESHOLD 250
+#define OLED_TOUCH_CAPACITIVE_TRIGGERMODE TOUCH_TRIGGER_BELOW
+#define OLED_TOUCH_CAPACITIVE_PERIOD (500)
+#define OLED_TOUCH_CAPACITIVE_DEBOUNCE_PERIOD 5000
 
 #endif //POWERMCU_CONFIG_H

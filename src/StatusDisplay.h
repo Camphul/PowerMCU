@@ -13,11 +13,12 @@
 #include <U8x8lib.h>
 #include <clib/u8g2.h>
 #include <U8g2lib.h>
+#include "freertos/timers.h"
 //#define U8G2_ESP32_HAL_UNDEFINED (-1)
 //#define U8G2_ESP32_HAL_DEFAULT { I2C_SDA, I2C_SCL }
-
+#define ACTION_OLED_ON 0x1
 namespace StatusDisplay {
-    static void taskRenderStatusDisplay(void *args);
+    [[noreturn]] static void taskRenderStatusDisplay(void *args);
 
     extern void setDisplayScreen(displayscreen_t screen);
 
@@ -28,10 +29,14 @@ namespace StatusDisplay {
     extern void setI2CAddress(uint8_t addr);
 
     extern void turnOff(void);
+    extern void turnOffTimerHandle(TimerHandle_t timer);
+
 
     extern void turnOn(void);
 
     extern void turnOnFor(uint16_t duration);
+
+    extern void turnOnForDurationFromISR(void);
 
     extern void clear(void);
 
