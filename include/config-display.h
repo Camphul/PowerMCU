@@ -20,7 +20,7 @@
 #define CHARGING_STR "Charging"
 #define UNKNOWN_STR "Unknown"
 #define DEFAULT_UNKNOWN_ERROR_STR "Unkwn Error"
-#define DISPLAY_TURN_ON_TIME 10
+#define DISPLAY_TURN_ON_TIME 30
 typedef U8G2_SSD1306_128X32_UNIVISION_F_SW_I2C Display;
 
 typedef struct displayscreen_t {
