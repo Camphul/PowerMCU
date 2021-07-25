@@ -20,10 +20,10 @@ void handleOnPressed() {
     LedDriver::setLevel(LEDRING_R_PIN, ledState);
     if(ledState) {
         //ON BOOT
-        gpio_set_level(SOFTLATCH_OUTPUT_PIN, HIGH);
-        gpio_hold_en(SOFTLATCH_OUTPUT_PIN);
-        gpio_set_level(SAFESHUTDOWN_WARN_PIN, HIGH);
-        gpio_hold_en(SAFESHUTDOWN_WARN_PIN);
+        //gpio_set_level(SOFTLATCH_OUTPUT_PIN, HIGH);
+        //gpio_hold_en(SOFTLATCH_OUTPUT_PIN);
+        //gpio_set_level(SAFESHUTDOWN_WARN_PIN, HIGH);
+        //gpio_hold_en(SAFESHUTDOWN_WARN_PIN);
     } else {
         safeShutdown();
     }
