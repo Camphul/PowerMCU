@@ -27,8 +27,8 @@ BootMananger::BootMananger() {
 BootResponse BootMananger::coreBootInit() {
     try {
         gpio_set_direction(SOFTLATCH_OUTPUT_PIN, GPIO_MODE_OUTPUT);
-        gpio_set_level(SOFTLATCH_OUTPUT_PIN, HIGH);
-        gpio_hold_en(SOFTLATCH_OUTPUT_PIN);
+        gpio_set_level(SOFTLATCH_OUTPUT_PIN, LOW);
+        gpio_hold_dis(SOFTLATCH_OUTPUT_PIN);
         gpio_set_direction(SOFTLATCH_BTN_PIN, GPIO_MODE_INPUT);
         gpio_set_pull_mode(SOFTLATCH_BTN_PIN, GPIO_PULLDOWN_ONLY);
         //gpio_set_direction(OLED_TOUCH_WAKEUP_PIN, GPIO_MODE_INPUT);
@@ -45,8 +45,8 @@ BootResponse BootMananger::registerBasicIO() {
     try {
         gpio_set_direction(SAFESHUTDOWN_WARN_PIN, GPIO_MODE_OUTPUT);
         gpio_set_pull_mode(SAFESHUTDOWN_WARN_PIN, GPIO_PULLDOWN_ONLY);
-        gpio_set_level(SAFESHUTDOWN_WARN_PIN, HIGH);
-        gpio_hold_en(SAFESHUTDOWN_WARN_PIN);
+        gpio_set_level(SAFESHUTDOWN_WARN_PIN, LOW);
+        gpio_hold_dis(SAFESHUTDOWN_WARN_PIN);
         ESP_LOGI("RegisterBasicIOTouch", "Initializing touch pad");
         ESP_ERROR_CHECK(touch_pad_init());
         ESP_ERROR_CHECK(touch_pad_set_fsm_mode(TOUCH_FSM_MODE_TIMER));
